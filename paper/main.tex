@@ -1,0 +1,261 @@
+% ============================================================
+% CTU Journal of Science — LaTeX Template
+% Tạp chí Khoa học Đại học Cần Thơ
+% Phần A: Khoa học Tự nhiên, Công nghệ và Môi trường
+%
+% Định dạng chuẩn xuất bản: Khổ A4, 2 cột (body), 1 cột (title/authors)
+% Lề: top/bottom=2.5cm, left/right=1.8cm, columnsep=0.8cm
+% Spacing: Single spacing, Font size: 10pt
+% ============================================================
+
+\documentclass[10pt, a4paper, twocolumn]{article}
+
+% ── Encoding & Language ─────────────────────────────────────
+\usepackage[utf8]{inputenc}
+\usepackage[T5]{fontenc}          % Vietnamese encoding
+\usepackage[english,vietnamese]{babel} % vietnamese is active language
+\usepackage{times}                % Times New Roman equivalent
+
+% ── Page Layout ─────────────────────────────────────────────
+\usepackage[
+  top=2.5cm, bottom=2.5cm,
+  left=1.8cm, right=1.8cm,
+  columnsep=0.8cm
+]{geometry}
+\usepackage{setspace}
+\singlespacing                    % Bản in chính thức dùng single-spaced
+% \raggedbottom removed — cho phép so le nhẹ giữa 2 cột (flushbottom mặc định)
+
+% ── Mathematics ─────────────────────────────────────────────
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{mathtools}
+
+% ── Figures & Tables ────────────────────────────────────────
+\usepackage{graphicx}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{multirow}
+\usepackage{array}
+\usepackage{tabularx}
+\usepackage{dblfloatfix}   % thay stfloats, cho phép figure*/table* dùng [b]
+\usepackage{caption}
+\usepackage{placeins}
+\usepackage{cuted}
+\usepackage{needspace}
+\usepackage{adjustbox}
+\usepackage{caption}
+\usepackage{tikz}
+\usetikzlibrary{positioning, shapes.geometric}
+
+% ── Section Formatting (CTU Style) ──────────────────────────
+\usepackage{titlesec}
+\titleformat{\section}{\large\bfseries}{\thesection.}{0.5em}{\MakeUppercase}
+\titleformat{\subsection}{\normalsize\bfseries}{\thesubsection.}{0.5em}{}
+\titleformat{\subsubsection}{\normalsize\itshape}{\thesubsubsection.}{0.5em}{}
+
+% ── Float Control (Dense Packing) ───────────────────────────
+\renewcommand{\topfraction}{0.95}
+\renewcommand{\bottomfraction}{0.95}
+\renewcommand{\floatpagefraction}{0.85}
+\renewcommand{\textfraction}{0.05}
+\renewcommand{\dbltopfraction}{0.95}
+\renewcommand{\dblfloatpagefraction}{0.85}
+
+% Caption format: Bold, no period
+% Table caption: above, left-aligned
+% Figure caption: below, centered
+\captionsetup[table]{
+  labelfont=bf, textfont=bf,
+  justification=raggedright,
+  singlelinecheck=false,
+  position=above,
+  labelsep=period,
+  font=small
+}
+\captionsetup[figure]{
+  labelfont=bf, textfont=bf,
+  justification=centering,
+  position=below,
+  labelsep=period,
+  font=small
+}
+
+% ── Hyperlinks & References ──────────────────────────────────
+\usepackage[
+  hidelinks,
+  colorlinks=false
+]{hyperref}
+\usepackage{url}
+
+% APA-style bibliography (author-year)
+\usepackage[
+  backend=biber,
+  style=authoryear,
+  sorting=nyt,            % Sort by name, year, title
+  natbib=true
+]{biblatex}
+\addbibresource{references.bib}
+\DeclareLanguageMapping{vietnamese}{english}
+
+\DefineBibliographyStrings{vietnamese}{
+  andothers = {và cs\adddot},
+  and = {và},
+  in = {trong},
+  inproceedings = {trong Kỷ yếu},
+  incollection = {trong Tuyển tập},
+  inbook = {trong Sách},
+  journal = {Tạp chí},
+  volume = {tập},
+  number = {số},
+  pages = {tr\adddot},
+  page = {tr\adddot},
+  techreport = {Báo cáo kỹ thuật},
+  editor = {chủ biên},
+  editors = {chủ biên},
+  edition = {tái bản},
+  url = {URL},
+  note = {Ghi chú},
+  doi = {DOI},
+  isbn = {ISBN},
+  issn = {ISSN},
+  phdthesis = {Luận án Tiến sĩ},
+  mastersthesis = {Luận văn Thạc sĩ},
+}
+\renewcommand{\intitlepunct}{\addspace}
+
+% ── Section formatting (CTU style) ──────────────────────────
+\usepackage{titlesec}
+% Level 1: UPPERCASE, BOLD, numbered
+\titleformat{\section}
+  {\normalfont\normalsize\bfseries\MakeUppercase}
+  {\thesection.}{0.5em}{}
+% Level 2: Title Case, Bold
+\titleformat{\subsection}
+  {\normalfont\normalsize\bfseries}
+  {\thesubsection.}{0.5em}{}
+% Level 3: Italic, Title Case
+\titleformat{\subsubsection}
+  {\normalfont\normalsize\itshape}
+  {\thesubsubsection.}{0.5em}{}
+
+% ── Running Headers & Footers (CTU Style) ────────────────────
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LO,RE]{\small\itshape Tạp chí Khoa học Đại học Cần Thơ}
+\fancyhead[RO,LE]{\small\itshape Tập ..., Số ... (...): ...-...}
+\fancyfoot[C]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+
+% ── Miscellaneous ────────────────────────────────────────────
+\usepackage{xcolor}
+\usepackage{enumitem}
+\usepackage{microtype}
+\usepackage{float}
+\usepackage{subcaption}
+\usepackage{authblk}
+
+% ============================================================
+% DOCUMENT BEGINS
+% ============================================================
+\begin{document}
+
+% ── Title and Authors in Single Column at the top of Page 1 ──
+\twocolumn[{
+  \noindent\small\textit{Tạp chí Khoa học Đại học Cần Thơ} \hfill \textit{Tập ..., Số ... (...): ...-...}\\
+  \noindent\rule{\textwidth}{0.5pt}
+  \vspace{0.8em}
+  
+  \begin{center}
+    {\large\bfseries
+      PHÁT HIỆN THỂ CHẾ VÀ GIẢI THÍCH GIÁ ĐIỆN PHI TUYẾN TẠI SÁU THỊ TRƯỜNG CHÂU ÂU GIAI ĐOẠN 2018--2025
+    }\\[0.8em]
+
+    {\large\bfseries
+      ELECTRICITY MARKET REGIME DISCOVERY AND NONLINEAR PRICE EXPLANATION FROM SIX EUROPEAN MARKETS, 2018--2025
+    }\\[1.2em]
+
+    {\normalsize\itshape
+      Tác giả\textsuperscript{1*}\\[0.2em]
+      \textsuperscript{1}Trường Công nghệ thông tin \& Truyền thông, Đại học Cần Thơ, Việt Nam\\[0.2em]
+      *Email: tacgia@ctu.edu.vn
+    }\\[1.5em]
+  \end{center}
+}]
+\thispagestyle{empty}
+
+% ── Left Column: Article Information ─────────────────────────
+\subsection*{Thông tin chung\\(Article Information)}
+\noindent\rule{\columnwidth}{0.4pt}
+\vspace{0.5em}
+{\small
+\textbf{Nhận bài (Received):} .../.../...\\
+\textbf{Sửa bài (Revised):} .../.../...\\
+\textbf{Duyệt đăng (Accepted):} .../.../...\\
+\vspace{1em}
+
+\noindent\textbf{Title:}\\
+ELECTRICITY MARKET REGIME DISCOVERY AND NONLINEAR PRICE EXPLANATION FROM SIX EUROPEAN MARKETS, 2018--2025\\
+\vspace{1em}
+
+\noindent\textbf{Author(s):}\\
+Tác giả\\
+\vspace{1em}
+
+\noindent\textbf{Affiliation(s):}\\
+\textsuperscript{1}College of Information and Communication Technology, Can Tho University, Vietnam\\
+\vspace{1em}
+
+\noindent\textbf{*Corresponding author:}\\
+Email: tacgia@ctu.edu.vn
+}
+
+% ── Switch to Right Column for Abstracts ─────────────────────
+\newpage
+
+% ── Right Column: Bilingual Abstracts ────────────────────────
+\noindent\textbf{TÓM TẮT}\\
+\textit{\small
+  Nghiên cứu này điều tra cơ chế nhân quả liên kết nền tảng vật lý với giá điện bán buôn tại sáu thị trường châu Âu (2018--2025). Chúng tôi đề xuất quy trình bốn giai đoạn: (i) kiểm định Granger xác nhận chuỗi Merit Order, (ii) mô hình OLS xác định phi tuyến cấu trúc, (iii) phát hiện thể chế thị trường qua UMAP và HDBSCAN, (iv) XGBoost và phân rã SHAP giải thích giá phi tuyến. Phân rã STL cho thấy khủng hoảng 2022 nằm chủ yếu trong phần dư, độc lập với xu hướng và mùa vụ. Kết quả phát hiện từ 5 đến 10 thể chế thị trường phi tham số. Kiểm định cửa sổ mở rộng dần (walk-forward) xác nhận dịch chuyển phân phối nghiêm trọng năm 2022 ($R^2 < 0$) và phục hồi năm 2023. Phân tích SHAP chứng minh giá khí TTF và tải trọng còn lại là yếu tố chi phối; nhãn thể chế cung cấp giá trị diễn giải nhưng không cải thiện đáng kể độ chính xác dự báo ($\Delta R^2 \approx +0{,}012$).
+}\\[0.4em]
+\noindent\textit{\small\textbf{Từ khóa:} dự báo giá điện, HDBSCAN, Merit Order, thể chế thị trường, SHAP, UMAP, XGBoost}
+\vspace{1.0em}
+
+\noindent\textbf{ABSTRACT}\\
+\textit{\small
+  This paper investigates the causal mechanism linking physical fundamentals to wholesale electricity prices across six European markets (2018--2025). We propose a four-stage pipeline: (i) Granger causality validation of the Merit Order, (ii) OLS linear benchmarking for structural nonlinearities, (iii) unsupervised market regime discovery via UMAP and HDBSCAN, and (iv) walk-forward XGBoost with SHAP for nonlinear price explanation. STL decomposition reveals the 2022 crisis is embedded in the residual component, unexplainable by trend or seasonality. Regime discovery identifies 5--10 structurally distinct market states per country. Walk-forward validation confirms severe distribution shift in 2022 ($R^2 < 0$) followed by strong recovery in 2023. SHAP analysis reveals TTF gas price and residual load as dominant drivers; regime labels provide interpretable market-state descriptions but contribute negligible predictive accuracy improvement ($\Delta R^2 \approx +0.012$).
+}\\[0.4em]
+\noindent\textit{\small\textbf{Keywords:} electricity price forecasting, HDBSCAN, market regime, Merit Order, SHAP, UMAP, XGBoost}
+
+
+
+% ── Page Break to Start Main Text on Page 2 ──────────────────
+\newpage
+
+% ============================================================
+\input{sections/introduction}
+% ============================================================
+
+
+% ============================================================
+\input{sections/methodology}
+% ============================================================
+
+
+% ============================================================
+\input{sections/results}
+% ============================================================
+
+
+% ============================================================
+\input{sections/conclusion}
+% ============================================================
+
+% ============================================================
+% REFERENCES (unnumbered)
+% ============================================================
+\section*{TÀI LIỆU THAM KHẢO}
+\printbibliography[heading=none]
+
+\end{document}

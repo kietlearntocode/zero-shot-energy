@@ -1,0 +1,162 @@
+% sections/methodology.tex
+% Section 2: PHƯƠNG PHÁP NGHIÊN CỨU
+
+\section{Phương pháp nghiên cứu}
+
+\subsection{Dữ liệu và phân rã chuỗi thời gian}
+
+Nghiên cứu sử dụng tập dữ liệu quy mô lớn gồm 420.768 quan sát theo giờ từ sáu quốc gia châu Âu giai đoạn 2018--2025: Đức (DE), Đan Mạch (DK), Tây Ban Nha (ES), Pháp (FR), Ý (IT) và Ba Lan (PL). Bộ dữ liệu gốc bao phủ 17 quốc gia châu Âu; sáu quốc gia trên được lựa chọn từ tập hợp này theo năm tiêu chí đồng thời nhằm tối đa hóa tính đại diện về mặt phương pháp luận: (1)~\textit{Cơ cấu nguồn phát đa dạng}, trong đó mỗi quốc gia đại diện cho ít nhất một dạng nguồn phát chính trong hệ thống Merit Order; (2)~\textit{Phủ toàn phổ Tải trọng còn lại (Residual Load)}, bao gồm từ giá âm do dư thừa tái tạo (DK) đến giá bùng nổ do thiếu nguồn cung (IT); (3)~\textit{Đa dạng địa lý}, phủ kín năm vùng khí hậu của châu Âu (Bắc, Trung, Tây, Đông, Nam); (4)~\textit{Mức độ độc lập thị trường}, ưu tiên các thị trường có giá phản ánh cơ chế nội tại, không bị chi phối bởi dòng nhập khẩu qua đường dây liên kết; và (5)~\textit{Khả năng kiểm chứng chuỗi nhân quả}, trong đó mỗi quốc gia phải thể hiện rõ ít nhất một mắt xích trong chuỗi Merit Order.
+
+Sự kết hợp của sáu quốc gia đảm bảo bao phủ đầy đủ năm loại nguồn phát chính trong hệ thống châu Âu: DE (cơ cấu hỗn hợp gió--than--khí đang chuyển đổi), DK (gió ngoài khơi chiếm hơn 50\% sản lượng), ES (năng lượng mặt trời cao cùng cơ chế áp trần giá khí đốt phát điện tạo ra sự cô lập tương đối với thị trường khí đốt EU), FR (điện hạt nhân chi phối $\approx$70\% và sự sụt giảm sản lượng năm 2022 làm mất nguồn phát nền cố định baseload), IT (quốc gia phụ thuộc khí đốt nhập khẩu nhiều nhất trong EU, nơi quá trình truyền dẫn từ giá TTF sang giá điện diễn ra mạnh nhất), và PL (nhiệt điện than chi phối $\approx$70\%, là phép thử cho trường hợp Merit Order thuần nhiên liệu hóa thạch không bị can nhiễu bởi tái tạo). Mười một quốc gia còn lại bị loại theo ba nhóm lý do có cơ sở phương pháp luận rõ ràng: (i)~\textit{Thủy điện hồ chứa điều phối được chi phối} (Na Uy, Thụy Điển, Áo, Thụy Sĩ). Cụ thể, trong hệ thống Merit Order, giá điện được quyết định bởi chi phí của nhà máy \textit{cuối cùng} (đắt nhất) được huy động để đáp ứng nhu cầu, gọi là \textit{nhà máy cận biên quyết định giá} (marginal plant), và giá của nó trở thành giá thị trường cho tất cả nhà máy đang vận hành. Tại Na Uy và Thụy Điển, nơi thủy điện hồ chứa điều phối được chiếm tới 70--90\% sản lượng, nhà vận hành chủ động mở thêm cửa xả turbine khi cầu tăng, khiến thủy điện tự lấp đầy khoảng trống trước khi nhà máy than hay khí, vốn có chi phí cao hơn nhiều, cần được huy động. Do đó, nhà máy nhiên liệu hóa thạch gần như không bao giờ trở thành nhà máy đắt nhất quyết định giá. Thay vào đó, giá điện phụ thuộc vào \textit{giá trị kinh tế cận biên của thủy điện hồ chứa} (Water Value), tức chi phí cơ hội giữa việc xả nước phát điện tại thời điểm hiện tại so với việc tích trữ cho giai đoạn giá cao hơn. Đây là cơ chế định giá hoàn toàn nằm ngoài khung Merit Order nhiên liệu hóa thạch mà nghiên cứu này kiểm chứng. (ii)~\textit{Thị trường không đủ độc lập} (Bỉ, Hà Lan, Ireland): giá bị chi phối chủ yếu bởi dòng nhập khẩu qua đường dây liên kết xuyên biên giới. (iii)~\textit{Trùng lặp vai trò đại diện} (Séc, Slovakia, Hungary, Phần Lan). Lưu ý rằng \textit{Hydro\_RoR\_MW} (lòng sông, không điều phối được) và \textit{Hydro\_Reservoir\_MW} (hồ chứa) vẫn được đưa vào tập đặc trưng của sáu quốc gia được chọn vì tại các thị trường này thủy điện chỉ chiếm 5--15\% sản lượng và nhiên liệu hóa thạch vẫn là nguồn phát cận biên quyết định giá, điều này hoàn toàn nhất quán với lý do loại bỏ các thị trường thủy điện chi phối.
+
+Biến mục tiêu là giá bán buôn điện thực tế đã điều chỉnh lạm phát theo chỉ số giá tiêu dùng HICP (HICP-adjusted Real Wholesale Price, ký hiệu là \textit{Real\_Wholesale\_Price\_EUR}). Các biến giải thích vật lý và kinh tế vĩ mô được thu thập từ ENTSO-E, EMBER, ICE, EEX và GIE AGSI+.
+
+Để hiểu rõ đặc tính chuyển dịch cấu trúc của giá điện trước khi đi vào phân tích nhân quả phức tạp, chúng tôi áp dụng phương pháp phân rã xu hướng và mùa vụ STL (Seasonal-Trend decomposition using LOESS) của \citet{cleveland1990}:
+\begin{equation}
+P_t = T_t + S_t + R_t
+\end{equation}
+Trong đó, $P_t$ là giá điện thực tế quan sát được tại thời điểm $t$, $T_t$ là xu hướng dài hạn, $S_t$ là thành phần mùa vụ (chu kỳ mùa vụ năm 365 ngày trên dữ liệu ngày), và $R_t$ là phần dư. 
+
+Kết quả phân rã chuỗi thời gian STL thực tế đối với Đức (DE) cùng các phát hiện khoa học về xu hướng, mùa vụ và phần dư được phân tích chi tiết tại Mục~\ref{subsec:stl_results}. Điểm phát hiện mấu chốt là thành phần phần dư bùng nổ cực đoan vào năm 2022, vượt hơn 200--400 EUR/MWh so với mức thông thường, chứng minh cuộc khủng hoảng giá không phải là một hiện tượng xu hướng hay mùa vụ đơn thuần mà bị dẫn dắt bởi các cú sốc cấu trúc bên ngoài.
+
+\subsection{Khung phân tích nhân quả và tuyển chọn đặc trưng}
+
+Chúng tôi xây dựng một Đồ thị có hướng không chu trình (DAG) mô tả chuỗi nhân quả hoạt động của cơ chế Merit Order trên hệ thống điện (Hình~\ref{fig:causal_dag}). Trong đó, tổng sản lượng phát điện từ các nhóm Năng lượng tái tạo (bao gồm điện gió trên bờ và ngoài khơi, điện mặt trời, thủy điện lòng sông và hồ chứa, sinh khối cùng địa nhiệt) kết hợp với Phụ tải tiêu thụ hệ thống sẽ xác định mức Tải trọng còn lại (\textit{Residual\_Load}). Cuối cùng, Tải trọng còn lại cùng với Chi phí nhiên liệu cận biên (được đại diện thực nghiệm bởi giá khí tự nhiên \textit{TTF\_Gas\_Price} và chỉ báo bất thường trữ lượng khí châu Âu \textit{EU\_Gas\_Storage\_Anomaly}) sẽ đồng thời quyết định mức Giá điện bán buôn tại điểm nút cận biên.
+
+Tải trọng còn lại là khoảng trống hệ thống cần đáp ứng bởi các nguồn năng lượng hóa thạch cận biên, được tính bằng công thức:
+\begin{equation}
+\text{Residual\_Load} = \text{Load} - \text{Renewables} - \text{Nuclear}
+\end{equation}
+Trong đó, điện hạt nhân được trừ đi do hoạt động như nguồn phát nền cố định bắt buộc chạy (must-run baseload) với chi phí cận biên gần bằng không.
+
+Chúng tôi định nghĩa hai cấu hình đặc trưng đầu vào song song nhằm trả lời hai câu hỏi nghiên cứu độc lập. Cấu hình $C_1$ kiểm định \textit{tính đủ} (sufficiency): liệu sáu biến vật lý--kinh tế vĩ mô cốt lõi có đủ để giải thích giá điện mà không cần nhãn thể chế nào? Cấu hình $C_2$ kiểm định \textit{giá trị gia tăng} (added value): nhãn thể chế \textit{Physical\_Cluster} do HDBSCAN phát hiện có cải thiện khả năng dự báo vượt ra ngoài sáu biến đầu vào ban đầu không? Đáng chú ý, sáu biến trong $C_1$ cũng chính là không gian đặc trưng phân cụm của HDBSCAN (xem \S\ref{subsec:hdbscan}), đảm bảo nhất quán lý thuyết xuyên suốt quy trình phân tích.
+\begin{enumerate}[noitemsep, topsep=3pt, parsep=3pt]
+  \raggedright
+  \item $C_1$: Cấu hình Nhân quả Cốt lõi (6 đặc trưng, không có nhãn thể chế): \textit{Residual\_Load}, \textit{TTF\_Gas\_Price}, \textit{Coal\_Price}, \textit{EU\_ETS\_Price}, \textit{Brent\_Oil\_Price}, \textit{EU\_Gas\_Storage\_Anomaly}.
+  \item $C_2$: Cấu hình Có Nhãn Thể chế (7 đặc trưng): $C_1$ và nhãn thể chế \textit{Physical\_Cluster} được phát hiện bởi HDBSCAN (xem \S\ref{subsec:hdbscan}).
+\end{enumerate}
+
+Việc loại bỏ các biến ngoại sinh vĩ mô (nhiệt độ, GDP, yếu tố mùa vụ ngoài ngành) khỏi không gian đặc trưng nhằm ngăn chặn hiệu ứng pha loãng nhân quả (causal dilution). Theo Đồ thị DAG tại Hình~\ref{fig:causal_dag}, mọi tác động từ khí hậu hay kinh tế xã hội đều đã được hấp thụ trọn vẹn và thể hiện thông qua biến số trung gian là Tải trọng còn lại. Điều này vừa triệt tiêu rủi ro chênh lệch tần số chuỗi thời gian (mixed-frequency data), vừa bảo vệ tính thuần khiết của lý thuyết Merit Order mà không cần phụ thuộc vào API dữ liệu bên ngoài.
+
+\begin{strip}
+  \centering
+  \begin{adjustbox}{max width=0.95\textwidth, max height=0.35\textheight, keepaspectratio}
+  \begin{tikzpicture}[
+    every node/.style={draw, rectangle, rounded corners, inner sep=10pt, align=center, font=\small},
+    arrow/.style={->, >=stealth, thick}
+  ]
+    \node (weather) {Năng lượng tái tạo};
+    \node (macro) [below=of weather] {Phụ tải tiêu thụ};
+    \node (residual) [right=of weather, xshift=1cm] {Tải trọng còn lại};
+    \node (fuel) [right=of macro, xshift=1cm] {Chi phí nhiên liệu cận biên};
+    \node (price) [right=of residual, yshift=-1.5cm, xshift=1cm, fill=gray!10] {Giá điện bán buôn};
+    
+    \draw[arrow] (weather) -- (residual) node[midway, above, draw=none] {-};
+    \draw[arrow] (macro) -- (residual) node[midway, right, draw=none] {+};
+    \draw[arrow] (residual) -- (price) node[midway, above, sloped, draw=none] {+};
+    \draw[arrow] (fuel) -- (price) node[midway, below, sloped, draw=none] {+};
+  \end{tikzpicture}
+  \end{adjustbox}
+  \captionof{figure}{Đồ thị có hướng không chu trình (DAG) mô tả cơ chế Merit Order}
+  \label{fig:causal_dag}
+\end{strip}
+
+\begin{strip}
+\centering
+\captionof{table}{Tập đặc trưng đầu vào của nghiên cứu (18 biến gốc)}
+\label{tab:feature_definitions}
+\begin{adjustbox}{max width=0.95\textwidth, max height=0.45\textheight, keepaspectratio}
+\begin{tabularx}{\textwidth}{@{}l l X@{}}
+\toprule
+Nhóm & Tên đặc trưng & Ý nghĩa \\
+\midrule
+Phụ tải
+  & \textit{Load} & Tổng phụ tải hệ thống (MW) \\
+  & \textit{Residual\_Load} & Nhu cầu còn lại sau khi trừ tái tạo và hạt nhân (MW) \\
+  & \textit{Net\_Import} & Nhập khẩu điện ròng qua biên giới (MW) \\
+\midrule
+Nhiên liệu
+  & \textit{TTF\_Gas\_Price} & Giá khí tự nhiên TTF (EUR/MWh) \\
+  & \textit{Coal\_Price} & Giá than Rotterdam API2 (EUR/tấn) \\
+  & \textit{Brent\_Oil\_Price} & Giá dầu Brent (USD/thùng) \\
+  & \textit{EU\_ETS\_Price} & Giá tín chỉ EU ETS (EUR/tấn CO\textsubscript{2}) \\
+  & \textit{EU\_Gas\_Storage\_Anomaly} & Độ lệch trữ lượng khí so với trung bình lịch sử (GWh) \\
+\midrule
+Nguồn phát
+  & \textit{Wind\_Onshore\_MW} & Điện gió trên bờ (MW) \\
+  & \textit{Wind\_Offshore\_MW} & Điện gió ngoài khơi (MW) \\
+  & \textit{Solar\_MW} & Điện mặt trời (MW) \\
+  & \textit{Nuclear\_MW} & Điện hạt nhân (MW) \\
+  & \textit{Biomass\_MW} & Điện sinh khối (MW) \\
+  & \textit{Geothermal\_MW} & Điện địa nhiệt (MW) \\
+  & \textit{Hydro\_RoR\_MW} & Thủy điện lòng sông (MW) \\
+  & \textit{Hydro\_Reservoir\_MW} & Thủy điện hồ chứa (MW) \\
+\midrule
+Thời gian
+  & \textit{Hour\_Sin} & Sine giờ để mã hóa chu kỳ ngày \\
+  & \textit{Hour\_Cos} & Cosine giờ để mã hóa chu kỳ ngày \\
+\bottomrule
+\end{tabularx}
+\end{adjustbox}
+\begin{minipage}{0.9\textwidth}
+  \vspace{0.15cm}
+  \small\textit{Ghi chú:} Bảng liệt kê 18 biến thu thập từ nguồn dữ liệu gốc. Biến phái sinh \textit{Physical\_Cluster} (nhãn thể chế HDBSCAN) được giới thiệu riêng tại \S\ref{subsec:hdbscan} và chỉ được đưa vào cấu hình $C_2$ của mô hình XGBoost.
+\end{minipage}
+\end{strip}
+
+Để tránh hiện tượng rò rỉ thông tin (data leakage) và đảm bảo tính giải thích thực sự của chuỗi nhân quả, các biến đồng sinh cận biên như sản lượng phát điện hóa thạch (\textit{Fossil\_MW}) và giá điện trễ ($P_{t-1}$) được loại bỏ có chủ đích khỏi tất cả cấu hình đặc trưng.
+
+\subsection{Kiểm định nhân quả Granger và mô hình tuyến tính OLS cơ sở}
+
+Trước khi huấn luyện các mô hình phi tuyến phức tạp, chúng tôi thực hiện kiểm định nhân quả Granger nhằm kiểm chứng tính hợp lý của các liên kết trong đồ thị DAG. Kết quả cho thấy tải trọng còn lại \textit{Residual\_Load} có quan hệ nhân quả Granger (Granger-cause) đối với giá điện thực tế tại cả sáu quốc gia ($p \approx 0$). Đối với giá khí tự nhiên \textit{TTF\_Gas\_Price}, kiểm định trên sai phân bậc nhất cho thấy TTF có quan hệ nhân quả Granger đối với giá điện tại năm trong sáu quốc gia ($p < 0,01$), ngoại trừ Đức ($p = 0,464$). Điều này phù hợp với thực tế rằng tái tạo và nhiệt điện than đóng vai trò chủ đạo trong định giá cận biên tại Đức, làm giảm sự truyền dẫn tuyến tính của biến động giá khí ngắn hạn.
+
+Để trả lời câu hỏi \textit{"Tuyến tính có đủ không?"}, mô hình hồi quy OLS được xây dựng trên 18 biến tại Bảng~\ref{tab:feature_definitions} (không bao gồm \textit{Physical\_Cluster} vì nhãn thể chế chưa tồn tại tại giai đoạn này) và đánh giá khả năng giải thích sai số theo vùng giá. Bảng~\ref{tab:ols_accuracy} trình bày chỉ số độ chính xác $R^2$ thực nghiệm của hồi quy OLS tại sáu quốc gia. Nếu OLS là đủ, phần dư sẽ phân bố ngẫu nhiên quanh 0 ở cả ba vùng giá. Tuy nhiên, kết quả cho thấy một hệ thống sai số có cấu trúc rõ rệt: phần dư dương cực lớn tập trung ở vùng giá cao High (mô hình liên tục \textit{dự báo thấp hơn thực tế} khi giá bùng nổ) và phần dư âm lớn ở vùng giá âm Low (mô hình \textit{dự báo cao hơn thực tế} khi dư thừa tái tạo). Cấu trúc sai số có hệ thống này xác nhận sự tồn tại của các thể chế thị trường phi tuyến khác nhau, đặt nền tảng lý do cho bước phát hiện thể chế tiếp theo.
+
+\begin{table}[h]
+  \centering
+  \caption{Độ chính xác hồi quy OLS ($R^2$) và đặc trưng sai số hệ thống theo thị trường}
+  \label{tab:ols_accuracy}
+  \begin{adjustbox}{max width=\columnwidth}
+  \begin{tabular}{@{}lccl@{}}
+    \toprule
+    \textbf{Quốc gia} & \textbf{Mã} & $\mathbf{R^2}$ & \textbf{Đặc trưng thiên lệch OLS chính} \\
+    \midrule
+    Đức & DE & 0,847 & Sai số dương lớn khi giá bùng nổ $>$300 EUR \\
+    Đan Mạch & DK & 0,744 & Sai số âm ở vùng giá âm do điện gió \\
+    Tây Ban Nha & ES & 0,711 & Trầm trọng ở vùng áp trần khí đốt \\
+    Pháp & FR & 0,849 & Sai số cao giai đoạn sụt giảm điện hạt nhân \\
+    Ý & IT & 0,911 & Phụ thuộc mạnh vào giá khí TTF \\
+    Ba Lan & PL & 0,688 & Khả năng giải thích tuyến tính thấp nhất \\
+    \bottomrule
+  \end{tabular}
+  \end{adjustbox}
+\end{table}
+
+\subsection{Phát hiện thể chế thị trường phi tham số (UMAP + HDBSCAN)}
+\label{subsec:hdbscan}
+
+Quy trình phát hiện thể chế gồm năm bước chính:
+\begin{enumerate}[noitemsep, topsep=2pt, parsep=2pt]
+  \item Loại bỏ ngoại lệ cực đoan bằng rừng cô lập (Isolation Forest) với tỷ lệ bẩn $0,05$ (gán nhãn $-2$).
+  \item Lấy mẫu phân tầng 10\% theo phân vị giá khí \textit{TTF\_Gas\_Price} để bảo đảm tính đại diện cấu trúc 6D mà không rò rỉ mục tiêu.
+  \item Chuẩn hóa \textit{StandardScaler} và giảm chiều xuống 2D bằng UMAP (\textit{n\_neighbors=30}, \textit{min\_dist=0.0}) nhằm tối ưu phân tách mật độ.
+  \item Phân cụm mật độ HDBSCAN trên không gian UMAP 2D, tối ưu hóa số cụm $K$ qua Grid Search theo chỉ số mật độ DBCV (điểm nhiễu gán nhãn $-1$).
+  \item Lan truyền nhãn cho 90\% dữ liệu còn lại bằng KNN ($k=5$) trên không gian 6D gốc chuẩn hóa (tương ứng với sáu biến $C_1$), loại bỏ phụ thuộc UMAP khi suy luận thực tế.
+\end{enumerate}
+
+\subsection{Mô hình XGBoost phi tuyến và phân rã SHAP}
+
+Chúng tôi huấn luyện hồi quy XGBoost \citep{chen2016} cây nông (\textit{max\_depth=5}) với dừng sớm (\textit{early\_stopping\_rounds=50}) trên 20\% dữ liệu validation.
+
+Để ngăn rò rỉ tương lai và kiểm chứng dịch chuyển phân phối, chúng tôi áp dụng kiểm định Walk-Forward Expanding Window qua sáu cửa sổ tăng dần ($W_1$: kiểm tra 2020 đến $W_6$: kiểm tra 2025), giúp mô hình thích ứng liên tục và bảo đảm tính vững.
+
+Đóng góp của từng biến được giải thích qua lý thuyết SHAP \citep{lundberg2017} với thuật toán TreeSHAP $O(TLD^2)$:
+\begin{equation}
+\begin{split}
+\phi_i = \sum_{S \subseteq F \setminus \{i\}} &\frac{|S|!(|F|-|S|-1)!}{|F|!} \\
+&\times [f(S \cup \{i\}) - f(S)]
+\end{split}
+\end{equation}
+Trong đó, $F$ là tập đặc trưng đầu vào và $S \subseteq F \setminus \{i\}$. Điểm ưu việt của SHAP là định lượng chính xác đóng góp biên theo từng giờ và từng thể chế vận hành (chi tiết tại Mục~\ref{subsec:shap_evolution}).
+
+

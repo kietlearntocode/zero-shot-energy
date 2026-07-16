@@ -1,0 +1,23 @@
+% sections/conclusion.tex
+% Section 4: KẾT LUẬN
+
+\section{Kết luận}
+
+Nghiên cứu này đã đề xuất và kiểm chứng thực nghiệm thành công một quy trình khai phá dữ liệu bốn giai đoạn nhằm phát hiện các thể chế vận hành phi tuyến của thị trường điện bán buôn và giải thích cơ chế hình thành giá bán buôn tại sáu quốc gia châu Âu giai đoạn 2018--2025. Các kết luận khoa học chính thu được bao gồm:
+
+\begin{enumerate}
+  \item Bản chất phi mùa vụ của cuộc khủng hoảng: Kết quả phân rã chuỗi thời gian STL chỉ ra rằng cuộc khủng hoảng năng lượng năm 2022 nằm hoàn toàn trong thành phần phần dư ($R_t$), không chịu ảnh hưởng bởi các yếu tố xu hướng dài hạn hay tính mùa vụ thông thường. Điều này khẳng định sự cần thiết phải tích hợp các biến đặc trưng nhân quả bên ngoài như giá khí đốt và độ lệch trữ lượng kho để giải thích các đột biến giá.
+  \item Cơ sở nhân quả vững chắc: Các kiểm định nhân quả Granger đã xác nhận tính đúng đắn của chuỗi liên kết Merit Order đề xuất trong đồ thị DAG hướng từ đặc trưng vật lý của hệ thống và giá nhiên liệu đến giá điện bán buôn thực tế.
+  \item Giá trị diễn giải của thể chế thị trường: Việc kết hợp UMAP và phân cụm mật độ HDBSCAN đã nhận diện thành công từ năm đến mười thể chế thị trường phi tham số trên mỗi quốc gia. Kiểm định thực nghiệm cho thấy phân cụm thể chế không cải thiện độ chính xác dự báo một cách nhất quán ($\Delta R^2 = +0,012$): XGBoost đã nội tại hóa cấu trúc thể chế từ sáu biến đầu vào. Tuy nhiên, nhãn thể chế cung cấp \textit{giá trị diễn giải}: công cụ giám sát trạng thái thị trường có thể đọc được (interpretable) cho các nhà điều tiết.
+  \item Bằng chứng thực nghiệm về dịch chuyển phân phối: Việc sụt giảm chỉ số $R^2$ xuống giá trị rất âm vào năm 2022 ($W_3$) và sự hồi phục mạnh mẽ vào năm 2023 ($W_4$) khi dữ liệu khủng hoảng được huấn luyện là bằng chứng thực nghiệm rõ nét nhất chứng minh hiện tượng dịch chuyển phân phối dữ liệu (distribution shift) do mô hình cây quyết định không có khả năng ngoại suy nằm ngoài vùng lịch sử.
+  \item Giá trị thực tiễn của ranh giới khủng hoảng: Nghiên cứu đã chỉ ra ranh giới khủng hoảng phi tuyến trong không gian sáu biến trạng thái ($C_1$: TTF, Coal, EU ETS, Brent, Residual Load, Storage): khi $\text{Residual\_Load} > 65\%$ và $\text{TTF} > 60\text{--}80$ EUR/MWh, thị trường chuyển sang thể chế giá bùng nổ cận biên.
+\end{enumerate}
+
+Hàm ý chính sách: Kết quả nghiên cứu cung cấp một công cụ giám sát rủi ro thực tế cho các cơ quan điều tiết năng lượng và nhà điều hành hệ thống truyền tải (TSO). Bằng cách liên tục giám sát vị trí trạng thái hệ thống trong không gian sáu biến ($C_1$: TTF, Coal, EU ETS, Brent, Residual Load, Storage Anomaly) so với ranh giới khủng hoảng thực nghiệm được xác định, các bên liên quan có thể đưa ra các cảnh báo sớm và biện pháp can thiệp thị trường kịp thời nhằm ngăn chặn các hành vi tăng giá cực đoan.
+
+% ============================================================
+% ACKNOWLEDGMENTS (unnumbered)
+% ============================================================
+\section*{LỜI CẢM ƠN}
+
+Nghiên cứu này được hỗ trợ bởi các nguồn dữ liệu công khai từ EMBER, ENTSO-E, Gas Infrastructure Europe (GIE) và Ngân hàng Thế giới. Tác giả chân thành cảm ơn các nhà phản biện và đồng nghiệp đã cung cấp các ý kiến quý báu để hoàn thiện phương pháp luận nghiên cứu.

@@ -1,0 +1,15 @@
+venv/
+__pycache__/
+*.pyc
+.env
+.cache.sqlite
+data/raw/*
+data/interim/*
+!data/raw/.gitkeep
+!data/interim/.gitkeep
+!data/processed/.gitkeep
+data/processed/*
+node_modules/
+dist/
+.vscode/
+.cursor/

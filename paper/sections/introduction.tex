@@ -1,0 +1,20 @@
+% sections/introduction.tex
+% Section 1: GIỚI THIỆU
+
+\section{Giới thiệu}
+
+Thị trường bán buôn điện châu Âu đã trải qua thời kỳ biến động chưa từng có trong giai đoạn 2021--2022 \citep{iea2022}. Tại sáu quốc gia Trung và Tây Âu được nghiên cứu, bao gồm Đức (DE), Đan Mạch (DK), Tây Ban Nha (ES), Pháp (FR), Ý (IT) và Ba Lan (PL), giá điện bán buôn vốn duy trì ổn định trong khoảng 40--80 EUR/MWh giai đoạn 2018--2020 đã tăng vọt tới mức kỷ lục vượt quá 500 EUR/MWh trong các đợt cao điểm của cuộc khủng hoảng năng lượng. Các mô hình kinh tế lượng tuyến tính truyền thống, được hiệu chuẩn dựa trên dữ liệu trước khủng hoảng, hầu như thất bại trong việc giải thích hành vi giá bất thường này, với sai số tuyệt đối trung bình (MAE) vượt quá 100 EUR/MWh trong giai đoạn cao điểm khủng hoảng \citep{lago2021}.
+
+Câu hỏi nghiên cứu cốt lõi thúc đẩy nghiên cứu này là: \textit{Chuỗi nhân quả Merit Order (vận hành từ sản lượng nguồn năng lượng tái tạo và phụ tải hệ thống để xác định tải trọng còn lại, kết hợp với chi phí nhiên liệu đầu vào để hình thành giá điện) vận hành như thế nào trong điều kiện bình thường, và cơ chế nào đã khuếch đại chuỗi này thành một cuộc khủng hoảng giá điện?}
+
+Nguyên lý Merit Order quy định rằng giá thị trường điện được quyết định bởi chi phí cận biên của nhà máy điện đắt nhất được huy động để đáp ứng nhu cầu \citep{sensfuss2008}. Trong điều kiện bình thường, nguồn phát năng lượng tái tạo dồi dào sẽ giảm tải trọng còn lại (Residual Load) cần đáp ứng bởi các nguồn phát nhiên liệu hóa thạch, từ đó giảm xác suất các nhà máy khí đốt đắt đỏ trở thành đơn vị cận biên thiết lập giá. Tuy nhiên, trong cuộc khủng hoảng 2021--2022, sự kết hợp đồng thời của điều kiện gió yếu, sản lượng điện hạt nhân sụt giảm nghiêm trọng tại Pháp và cú sốc nguồn cung khí đốt toàn cầu đã làm sụp đổ hoàn toàn cơ chế tự ổn định này \citep{iea2022}.
+
+Các nghiên cứu hiện tại thường sử dụng mô hình chuyển đổi thể chế có tham số (regime-switching models) như trong nghiên cứu của \citet{janczura2010} và \citet{huisman2003}, vốn đòi hỏi các giả định phân phối khắt khe và không phù hợp với đặc tính phân phối đuôi dày (heavy-tailed distribution) của giá điện. Nghiên cứu này đóng góp một khung phân tích hoàn toàn phi tham số, kết hợp UMAP \citep{mcinnes2018} và HDBSCAN \citep{campello2013} để phát hiện các thể chế thị trường một cách tự động, sau đó áp dụng thuật toán XGBoost \citep{chen2016} cùng với phân rã SHAP \citep{lundberg2017} để định lượng phi tuyến đóng góp của từng nhân tố. Phương pháp này mang lại các kết quả có tính nhất quán cao và khả năng tái lập trên sáu thị trường có cấu trúc nguồn phát khác nhau.
+
+Các đóng góp chính của nghiên cứu này bao gồm:
+\begin{enumerate}[label=(\roman*)]
+  \item Đề xuất quy trình phát hiện thể chế thị trường điện phi tham số, không phụ thuộc giả định phân phối và loại bỏ hoàn toàn hiện tượng rò rỉ dữ liệu mục tiêu (target leakage).
+  \item Cung cấp bằng chứng thực nghiệm chéo từ sáu quốc gia đại diện cho các cấu trúc năng lượng khác nhau, trải qua ba giai đoạn kinh tế (trước khủng hoảng, khủng hoảng và sau khủng hoảng).
+  \item Định lượng độ nhạy cảm của giá điện đối với các nhân tố đầu vào theo từng thể chế thông qua phân rã SHAP theo cơ chế kiểm chứng cửa sổ mở rộng dần (Walk-Forward Expanding Window).
+  \item Xác định ranh giới khủng hoảng phi tuyến thực nghiệm trong không gian sáu biến trạng thái (Tải trọng còn lại, Giá khí TTF, Giá than, Giá tín chỉ EU ETS, Giá dầu Brent, Độ lệch trữ lượng khí).
+\end{enumerate}
