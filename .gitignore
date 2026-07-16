@@ -37,3 +37,4 @@ paper/
 temp_headers.txt
 src/models/gen_*.py
 src/models/*slides*.py
+reports/
