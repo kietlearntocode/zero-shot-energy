@@ -5,3 +5,4 @@ xgboost
 yfinance
 requests
 python-dotenv
+scikit-learn
