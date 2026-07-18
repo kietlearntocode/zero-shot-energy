@@ -192,7 +192,8 @@ use([LineChart, GridComponent, TooltipComponent, LegendComponent,
      MarkLineComponent, DataZoomComponent, CanvasRenderer])
 
 // ── Config ────────────────────────────────────────────────────────────────
-const API_BASE = 'http://localhost:8000'
+// API endpoint Backend (Deploy trên Render)
+const API_BASE = 'https://zero-shot-energy.onrender.com'
 
 const countryNames = {
   BE: 'Belgium', CZ: 'Czechia', DE: 'Germany', DK: 'Denmark', ES: 'Spain',
