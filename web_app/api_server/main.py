@@ -134,23 +134,23 @@ def _build_feature_vector(country: str, target_date: pd.Timestamp,
     macro_row_t1 = _get_row(country, target_date - timedelta(days=1))
     macro_row_t2 = _get_row(country, target_date - timedelta(days=2))
 
-    def _safe_get(row, key, default):
+    def _safe_get(row, key):
         val = row.get(key)
         if val is None or pd.isna(val):
-            return default
+            return None
         return float(val)
 
     macro = {
-        "TTF_Gas_Lag1":          _safe_get(macro_row_t1, "TTF_Gas_Price", 40.0),
-        "TTF_Gas_Lag2":          _safe_get(macro_row_t2, "TTF_Gas_Price", 40.0),
-        "Coal_Lag1":             _safe_get(macro_row_t1, "Coal_Price", 100.0),
-        "Coal_Lag2":             _safe_get(macro_row_t2, "Coal_Price", 100.0),
-        "EU_ETS_Lag1":           _safe_get(macro_row_t1, "EU_ETS_Price", 70.0),
-        "EU_ETS_Lag2":           _safe_get(macro_row_t2, "EU_ETS_Price", 70.0),
-        "Brent_Oil_Lag1":        _safe_get(macro_row_t1, "Brent_Oil_Price", 80.0),
-        "Brent_Oil_Lag2":        _safe_get(macro_row_t2, "Brent_Oil_Price", 80.0),
-        "EU_Gas_Storage_Lag1":   _safe_get(macro_row_t1, "EU_Gas_Storage_Anomaly", 0.0),
-        "EU_Gas_Storage_Lag2":   _safe_get(macro_row_t2, "EU_Gas_Storage_Anomaly", 0.0),
+        "TTF_Gas_Lag1":          _safe_get(macro_row_t1, "TTF_Gas_Price"),
+        "TTF_Gas_Lag2":          _safe_get(macro_row_t2, "TTF_Gas_Price"),
+        "Coal_Lag1":             _safe_get(macro_row_t1, "Coal_Price"),
+        "Coal_Lag2":             _safe_get(macro_row_t2, "Coal_Price"),
+        "EU_ETS_Lag1":           _safe_get(macro_row_t1, "EU_ETS_Price"),
+        "EU_ETS_Lag2":           _safe_get(macro_row_t2, "EU_ETS_Price"),
+        "Brent_Oil_Lag1":        _safe_get(macro_row_t1, "Brent_Oil_Price"),
+        "Brent_Oil_Lag2":        _safe_get(macro_row_t2, "Brent_Oil_Price"),
+        "EU_Gas_Storage_Lag1":   _safe_get(macro_row_t1, "EU_Gas_Storage_Anomaly"),
+        "EU_Gas_Storage_Lag2":   _safe_get(macro_row_t2, "EU_Gas_Storage_Anomaly"),
     }
 
     # ── Cyclical: tính từ target_date ────────────────────────────────────
@@ -163,13 +163,13 @@ def _build_feature_vector(country: str, target_date: pd.Timestamp,
         r = _get_row(country, date)
         if r and not pd.isna(r.get("Real_Wholesale_Price_EUR")):
             return float(r["Real_Wholesale_Price_EUR"])
-        return 60.0
+        return None
 
     def _load(date):
         r = _get_row(country, date)
         if r and not pd.isna(r.get("Residual_Load_Normalized")):
             return float(r["Residual_Load_Normalized"])
-        return 0.5
+        return None
 
     # Lấy các lag prices 
     price_lag1  = _price(target_date - timedelta(days=1))
@@ -182,12 +182,12 @@ def _build_feature_vector(country: str, target_date: pd.Timestamp,
     load_lag2  = _load(target_date - timedelta(days=2))
     load_lag7  = _load(target_date - timedelta(days=7))
 
-    roll_prices = [_price(target_date - timedelta(days=d)) for d in range(1, 8)]
-    roll7_mean = float(np.mean(roll_prices)) if len(roll_prices) > 0 else 0.0
-    roll7_std  = float(np.std(roll_prices)) if len(roll_prices) > 0 else 0.0
+    roll_prices = [p for p in [_price(target_date - timedelta(days=d)) for d in range(1, 8)] if p is not None]
+    roll7_mean = float(np.mean(roll_prices)) if len(roll_prices) > 0 else None
+    roll7_std  = float(np.std(roll_prices)) if len(roll_prices) > 0 else None
 
-    roll_loads = [_load(target_date - timedelta(days=d)) for d in range(1, 8)]
-    load_roll7_mean = float(np.mean(roll_loads)) if len(roll_loads) > 0 else 0.0
+    roll_loads = [l for l in [_load(target_date - timedelta(days=d)) for d in range(1, 8)] if l is not None]
+    load_roll7_mean = float(np.mean(roll_loads)) if len(roll_loads) > 0 else None
 
     lags = {
         "Price_Lag1": price_lag1, "Price_Lag2": price_lag2,
