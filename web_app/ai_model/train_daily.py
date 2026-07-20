@@ -9,7 +9,13 @@ Split: Walk-Forward
   Test : 2026-01-01 → 2026-12-31
 """
 
-import os, json
+import os, json, sys
+if sys.stdout.encoding and sys.stdout.encoding.lower() != 'utf-8':
+    try:
+        sys.stdout.reconfigure(encoding='utf-8')
+    except Exception:
+        pass
+
 import numpy as np
 import pandas as pd
 import xgboost as xgb

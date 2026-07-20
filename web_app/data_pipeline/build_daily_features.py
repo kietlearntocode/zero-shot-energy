@@ -152,8 +152,8 @@ def add_lags(df: pd.DataFrame) -> pd.DataFrame:
     all_parts = []
     for country in COUNTRIES:
         cdf = df[df["Country"] == country].copy().sort_values("Date")
-        price = cdf["Real_Wholesale_Price_EUR"]
-        load  = cdf["Residual_Load_Normalized"]
+        price = cdf["Real_Wholesale_Price_EUR"].ffill().bfill()
+        load  = cdf["Residual_Load_Normalized"].ffill().bfill()
 
         # Price lags
         cdf["Price_Lag1"]   = price.shift(1)
@@ -162,17 +162,23 @@ def add_lags(df: pd.DataFrame) -> pd.DataFrame:
         cdf["Price_Lag14"]  = price.shift(14)
         cdf["Price_Lag30"]  = price.shift(30)
 
-        # Macro lags (Lag 1, Lag 2)
-        cdf["TTF_Gas_Lag1"] = cdf["TTF_Gas_Price"].shift(1)
-        cdf["TTF_Gas_Lag2"] = cdf["TTF_Gas_Price"].shift(2)
-        cdf["Coal_Lag1"]    = cdf["Coal_Price"].shift(1)
-        cdf["Coal_Lag2"]    = cdf["Coal_Price"].shift(2)
-        cdf["EU_ETS_Lag1"]  = cdf["EU_ETS_Price"].shift(1)
-        cdf["EU_ETS_Lag2"]  = cdf["EU_ETS_Price"].shift(2)
-        cdf["Brent_Oil_Lag1"] = cdf["Brent_Oil_Price"].shift(1)
-        cdf["Brent_Oil_Lag2"] = cdf["Brent_Oil_Price"].shift(2)
-        cdf["EU_Gas_Storage_Lag1"] = cdf["EU_Gas_Storage_Anomaly"].shift(1)
-        cdf["EU_Gas_Storage_Lag2"] = cdf["EU_Gas_Storage_Anomaly"].shift(2)
+        # Macro lags (Lag 1, Lag 2) - ffill/bfill trước khi shift để tránh NaN
+        ttf  = cdf["TTF_Gas_Price"].ffill().bfill()
+        coal = cdf["Coal_Price"].ffill().bfill()
+        ets  = cdf["EU_ETS_Price"].ffill().bfill()
+        oil  = cdf["Brent_Oil_Price"].ffill().bfill()
+        stor = cdf["EU_Gas_Storage_Anomaly"].ffill().bfill()
+
+        cdf["TTF_Gas_Lag1"] = ttf.shift(1)
+        cdf["TTF_Gas_Lag2"] = ttf.shift(2)
+        cdf["Coal_Lag1"]    = coal.shift(1)
+        cdf["Coal_Lag2"]    = coal.shift(2)
+        cdf["EU_ETS_Lag1"]  = ets.shift(1)
+        cdf["EU_ETS_Lag2"]  = ets.shift(2)
+        cdf["Brent_Oil_Lag1"] = oil.shift(1)
+        cdf["Brent_Oil_Lag2"] = oil.shift(2)
+        cdf["EU_Gas_Storage_Lag1"] = stor.shift(1)
+        cdf["EU_Gas_Storage_Lag2"] = stor.shift(2)
 
         # Load lags (Lag 1, 2, 7)
         cdf["Load_Lag1"]  = load.shift(1)

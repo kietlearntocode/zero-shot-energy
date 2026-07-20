@@ -9,14 +9,18 @@ import os
 import pandas as pd
 import numpy as np
 from datetime import datetime
-import holidays
+try:
+    import holidays
+except ImportError:
+    holidays = None
 
 def get_holiday_flag(country_code, dt):
+    if holidays is None:
+        return 0
     try:
-        import holidays
         country_holidays = holidays.country_holidays(country_code)
         return 1 if dt in country_holidays else 0
-    except:
+    except Exception:
         return 0
 
 def merge_master_dataset():

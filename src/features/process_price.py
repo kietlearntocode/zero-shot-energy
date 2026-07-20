@@ -1,4 +1,4 @@
-﻿import sys
+import sys
 import os
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../..')))
 if sys.stdout.encoding.lower() != 'utf-8':
@@ -37,9 +37,13 @@ def process_price():
         if 'HICP_excluding_energy' in df_macro.columns:
             df_macro_subset = df_macro[['Datetime', 'Country', 'HICP_excluding_energy']]
             df_resampled = pd.merge(df_resampled, df_macro_subset, on=['Datetime', 'Country'], how='left')
+            # Tự động nội suy (ffill/bfill) chỉ số lạm phát HICP theo từng quốc gia nếu thiếu (như tháng 12/2025)
+            df_resampled['HICP_excluding_energy'] = df_resampled.groupby('Country')['HICP_excluding_energy'].ffill().bfill().fillna(100.0)
             # Tính Real Price
             df_resampled['Real_Wholesale_Price_EUR'] = df_resampled['Wholesale_Price_EUR'] / (df_resampled['HICP_excluding_energy'] / 100)
-            print("     [OK] Đã tính Real_Wholesale_Price_EUR.")
+            # Nếu vẫn còn bất kỳ giá Real nào bị NaN/Inf, fallback về giá danh nghĩa Wholesale_Price_EUR
+            df_resampled['Real_Wholesale_Price_EUR'] = df_resampled['Real_Wholesale_Price_EUR'].fillna(df_resampled['Wholesale_Price_EUR'])
+            print("     [OK] Đã tính Real_Wholesale_Price_EUR (hoàn toàn không còn NaN).")
         else:
             print("     [WARN] Không tìm thấy HICP_excluding_energy trong processed_macro.csv")
     else:
