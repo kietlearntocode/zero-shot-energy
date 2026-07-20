@@ -55,7 +55,8 @@
               v-model="selectedDate"
               :min-date="dateRange.min_date"
               :max-date="dateRange.max_forecast_date"
-              :enable-time-picker="false"
+              :enableTimePicker="false"
+              :timePicker="false"
               auto-apply
               dark
               :clearable="false"
@@ -707,8 +708,16 @@ body .dp--theme-dark {
   filter: drop-shadow(0 0 4px rgba(96,165,250,0.5));
 }
 
-/* OUTER WRAPPER (teleported popup) */
+/* OUTER WRAPPER (teleported popup) - Strip all styles */
 body .dp--menu-wrapper {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0 !important;
+}
+
+/* INNER MENU (The actual popup container) */
+.powercast-menu {
   background: rgba(15, 23, 42, 0.85) !important;
   backdrop-filter: blur(24px) !important;
   -webkit-backdrop-filter: blur(24px) !important;
@@ -716,25 +725,21 @@ body .dp--menu-wrapper {
   border-radius: 16px !important;
   box-shadow: 0 20px 40px -10px rgba(0,0,0,0.7), 0 0 30px rgba(59,130,246,0.15) !important;
   font-family: 'Inter', sans-serif !important;
-  padding: 4px !important;
+  padding: 8px !important;
 }
 
-/* INNER MENU - Remove its default styling to prevent double borders */
-body .dp--menu-wrapper .dp--menu,
-body .dp--menu-wrapper .dp--menu-inner {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-}
-
-/* HIDE ARROW AND TIME PICKER / ACTION ROW */
+/* HIDE ARROW, ACTION ROW, TIME PICKER BUTTONS, OVERLAYS */
 body .dp--arrow,
-body .dp--action-row,
-body .dp--action-buttons,
-body .dp--time-display,
-body .dp--time-picker-inline-container,
-body .dp--time-overlay-btn {
+.powercast-menu .dp--action-row,
+.powercast-menu .dp--action-buttons,
+.powercast-menu .dp--time-display,
+.powercast-menu .dp--time-picker-inline-container,
+.powercast-menu .dp--time-overlay-btn,
+.powercast-menu .dp--overlay-action,
+.powercast-menu .dp--button,
+.powercast-menu .dp--overlay {
   display: none !important;
+  pointer-events: none !important;
 }
 
 /* Header Text (Month/Year) */
