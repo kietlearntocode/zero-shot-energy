@@ -219,8 +219,7 @@ use([LineChart, GridComponent, TooltipComponent, LegendComponent,
      MarkLineComponent, DataZoomComponent, CanvasRenderer])
 
 // ── Config ────────────────────────────────────────────────────────────────
-// Trỏ về localhost khi test
-const API_BASE = 'http://localhost:8000'
+const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:8000'
 
 const countryNames = {
   BE: 'Belgium', CZ: 'Czechia', DE: 'Germany', DK: 'Denmark', ES: 'Spain',
