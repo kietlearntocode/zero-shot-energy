@@ -206,7 +206,26 @@ def _build_feature_vector(country: str, target_date: pd.Timestamp,
         "Country_Avg_Price": c_prof.get("Country_Avg_Price", 0.0),
     }
 
-    return {**macro, **cyc, **lags, **prof}
+    res = {**macro, **cyc, **lags, **prof}
+
+    # ── Smart Fallback Imputation (Ngăn XGBoost dự đoán vọt lên ~480 EUR/MWh khi thiếu feature) ──
+    avg_price = prof.get("Country_Avg_Price", 85.0) if prof.get("Country_Avg_Price", 0) > 0 else 85.0
+    avg_load  = prof.get("Country_Avg_Residual_Load", 0.5) if prof.get("Country_Avg_Residual_Load", 0) > 0 else 0.5
+    defaults = {
+        "Price_Lag1": avg_price, "Price_Lag2": avg_price, "Price_Lag7": avg_price, "Price_Lag14": avg_price, "Price_Lag30": avg_price,
+        "Price_Roll7_Mean": avg_price, "Price_Roll7_Std": 15.0,
+        "Load_Lag1": avg_load, "Load_Lag2": avg_load, "Load_Lag7": avg_load, "Load_Roll7_Mean": avg_load,
+        "TTF_Gas_Lag1": 35.0, "TTF_Gas_Lag2": 35.0,
+        "Coal_Lag1": 110.0, "Coal_Lag2": 110.0,
+        "EU_ETS_Lag1": 70.0, "EU_ETS_Lag2": 70.0,
+        "Brent_Oil_Lag1": 80.0, "Brent_Oil_Lag2": 80.0,
+        "EU_Gas_Storage_Lag1": 0.0, "EU_Gas_Storage_Lag2": 0.0
+    }
+    for k, default_val in defaults.items():
+        if res.get(k) is None or pd.isna(res.get(k)):
+            res[k] = default_val
+
+    return res
 
 
 # ═════════════════════════════════════════════════════════════════════════════
