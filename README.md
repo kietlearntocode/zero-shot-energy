@@ -13,7 +13,7 @@ This repository contains the codebase and data pipeline for the research paper o
   - `experiments/`: Scripts orchestrating the training and evaluation using Expanding Window Walk-Forward validation.
 - **`notebooks/`**: Jupyter notebooks for exploratory data analysis and visualization.
 - **`paper/`**: LaTeX source code for the research manuscript. To compile the paper, navigate to this directory and run `pdflatex main.tex`.
-- **`data/`**: (Ignored in Git for privacy/size) Directory for raw, interim, and processed datasets. 
+- **`data/`**: (Ignored in Git for privacy/size) Directory for raw, interim, and processed datasets.
 - **`web_app/`**: A web dashboard built to visualize the results and regimes interactively.
 
 ## Key Contributions
@@ -39,6 +39,7 @@ pip install -r requirements.txt
 ## Paper Compilation
 
 To build the PDF of the research paper:
+
 ```bash
 cd paper
 pdflatex main.tex
@@ -46,4 +47,5 @@ pdflatex main.tex # Run twice to generate the Table of Contents correctly
 ```
 
 ## License
+
 MIT License
