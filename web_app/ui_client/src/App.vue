@@ -17,17 +17,34 @@
         </div>
 
         <div class="header-controls">
-          <!-- Country Selector -->
+          <!-- Country Selector (Premium Dropdown) -->
           <div class="control-group">
             <label class="control-label">Market</label>
-            <div class="select-wrapper">
-              <select v-model="selectedCountry" @change="onParamsChange" class="custom-select" id="country-select">
-                <option v-for="c in countries" :key="c" :value="c">{{ countryNames[c] || c }}</option>
-              </select>
-              <svg class="select-arrow" viewBox="0 0 20 20" fill="currentColor">
+            <div class="premium-control" tabindex="0" @blur="closeCountryDropdown" @click="toggleCountryDropdown">
+              <span class="premium-control-value">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="icon-blue">
+                  <path d="M3 21h18M3 10h18M5 6l7-3 7 3M4 10v11m16-11v11M8 14v3m4-3v3m4-3v3"/>
+                </svg>
+                {{ countryNames[selectedCountry] || selectedCountry }}
+              </span>
+              <svg class="premium-arrow" :class="{ 'rotate-180': isCountryDropdownOpen }" viewBox="0 0 20 20" fill="currentColor">
                 <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
               </svg>
             </div>
+            
+            <Transition name="fade-slide">
+              <div v-if="isCountryDropdownOpen" class="premium-dropdown-menu">
+                <div 
+                  v-for="c in countries" 
+                  :key="c" 
+                  class="dropdown-item"
+                  :class="{ 'active': c === selectedCountry }"
+                  @click="selectCountry(c)"
+                >
+                  {{ countryNames[c] || c }}
+                </div>
+              </div>
+            </Transition>
           </div>
 
           <!-- Date Picker -->
@@ -45,13 +62,24 @@
               format="dd/MM/yyyy"
               @update:model-value="onParamsChange"
               class="premium-datepicker"
-            />
+            >
+              <template #input-icon>
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="icon-blue datepicker-icon">
+                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                  <line x1="16" y1="2" x2="16" y2="6"></line>
+                  <line x1="8" y1="2" x2="8" y2="6"></line>
+                  <line x1="3" y1="10" x2="21" y2="10"></line>
+                </svg>
+              </template>
+            </VueDatePicker>
           </div>
 
           <!-- Today Button -->
-          <button @click="goToToday" class="btn-today" title="Jump to latest available date">
-            Today
-          </button>
+          <div class="control-group" style="justify-content: flex-end;">
+            <button @click="goToToday" class="premium-btn" title="Jump to latest available date">
+              Today
+            </button>
+          </div>
         </div>
       </div>
     </header>
@@ -192,13 +220,33 @@ const countryNames = {
 }
 
 // ── State ─────────────────────────────────────────────────────────────────
-const loading        = ref(false)
-const error          = ref(null)
-const countries      = ref(Object.keys(countryNames))
+const markets = ['DE']
+const loading = ref(true)
+const error = ref(null)
+const forecast = ref(null)
+const selectedDate = ref('2026-07-20')
 const selectedCountry = ref('DE')
-const selectedDate   = ref('')
-const dateRange      = ref({ min_date: '2019-01-01', max_date: '2025-12-31', max_forecast_date: '2026-01-07' })
-const forecast       = ref(null)
+const dateRange = ref({
+  min_date: '2022-01-01',
+  max_forecast_date: '2026-07-26'
+})
+
+// Premium Dropdown State
+const isCountryDropdownOpen = ref(false)
+function toggleCountryDropdown() {
+  isCountryDropdownOpen.value = !isCountryDropdownOpen.value
+}
+function closeCountryDropdown() {
+  setTimeout(() => {
+    isCountryDropdownOpen.value = false
+  }, 150)
+}
+function selectCountry(c) {
+  selectedCountry.value = c
+  isCountryDropdownOpen.value = false
+  onParamsChange()
+}
+const countries = ref(Object.keys(countryNames))
 
 // ── Lifecycle ─────────────────────────────────────────────────────────────
 onMounted(async () => {
@@ -470,49 +518,94 @@ body {
 .control-group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 8px;
+  position: relative;
 }
 
 .control-label {
-  font-size: 10px;
+  font-size: 12px;
   font-weight: 600;
-  letter-spacing: 0.08em;
+  color: var(--text-2);
   text-transform: uppercase;
-  color: var(--text-3);
+  letter-spacing: 0.5px;
 }
 
-.select-wrapper {
-  position: relative;
+/* ── PREMIUM CONTROLS (DROPDOWN) ── */
+.premium-control {
   display: flex;
   align-items: center;
-}
-
-.custom-select {
-  background: var(--surface2);
-  border: 1px solid var(--border2);
-  color: var(--text-1);
-  border-radius: 8px;
-  padding: 8px 36px 8px 14px;
+  justify-content: space-between;
+  background: rgba(30, 41, 59, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 0 16px;
+  height: 44px;
+  width: 170px;
+  color: #f1f5f9;
   font-size: 14px;
   font-weight: 500;
-  font-family: 'Inter', sans-serif;
-  outline: none;
-  appearance: none;
-  -webkit-appearance: none;
   cursor: pointer;
-  transition: border-color 0.2s, background 0.2s;
-  min-width: 140px;
-  height: 38px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+.premium-control:hover,
+.premium-control:focus {
+  background: rgba(30, 41, 59, 0.9);
+  border-color: rgba(59, 130, 246, 0.4);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+  outline: none;
+}
+.premium-control-value {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.icon-blue {
+  color: #3b82f6;
+}
+.premium-arrow {
+  width: 20px;
+  height: 20px;
+  color: #94a3b8;
+  transition: transform 0.3s ease;
+}
+.rotate-180 {
+  transform: rotate(180deg);
 }
 
-.custom-select option {
-  background-color: var(--bg);
-  color: var(--text-1);
+.premium-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: #0f172a;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 12px;
+  padding: 8px;
+  z-index: 50;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.5);
 }
-
-.custom-select:focus {
-  border-color: var(--blue);
-  background: rgba(59,130,246,0.08);
+.dropdown-item {
+  padding: 10px 12px;
+  border-radius: 8px;
+  color: #cbd5e1;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+.dropdown-item:hover, .dropdown-item.active {
+  background: rgba(59, 130, 246, 0.15);
+  color: #fff;
+}
+.fade-slide-enter-active,
+.fade-slide-leave-active {
+  transition: opacity 0.2s ease, transform 0.2s ease;
+}
+.fade-slide-enter-from,
+.fade-slide-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
 }
 
 /* ── PREMIUM DATEPICKER ── */
