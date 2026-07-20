@@ -194,7 +194,7 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
-import VueDatePicker from '@vuepic/vue-datepicker'
+import { VueDatePicker } from '@vuepic/vue-datepicker'
 import '@vuepic/vue-datepicker/dist/main.css'
 import axios from 'axios'
 import { LineChart } from 'echarts/charts'
@@ -204,6 +204,7 @@ import {
 } from 'echarts/components'
 import { CanvasRenderer } from 'echarts/renderers'
 import VChart from 'vue-echarts'
+import { use } from 'echarts/core'
 
 use([LineChart, GridComponent, TooltipComponent, LegendComponent,
      MarkLineComponent, DataZoomComponent, CanvasRenderer])
@@ -681,6 +682,124 @@ body {
   filter: drop-shadow(0 0 4px rgba(96,165,250,0.5));
 }
 
+/* ── CALENDAR POPUP — match market dropdown ── */
+.dp__menu {
+  background: rgba(15, 23, 42, 0.92) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(59, 130, 246, 0.22) !important;
+  border-radius: 16px !important;
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.7), 0 0 30px rgba(59,130,246,0.12) !important;
+  font-family: 'Inter', sans-serif !important;
+  padding: 8px !important;
+}
+
+/* Month/year nav buttons */
+.dp__month_year_select {
+  background: transparent !important;
+  color: #f1f5f9 !important;
+  font-size: 14px !important;
+  font-weight: 700 !important;
+  font-family: 'Inter', sans-serif !important;
+  border-radius: 8px !important;
+  transition: background 0.2s ease !important;
+}
+.dp__month_year_select:hover {
+  background: linear-gradient(90deg, rgba(59,130,246,0.18) 0%, transparent 100%) !important;
+  color: #60a5fa !important;
+}
+
+/* Prev/Next nav arrow icons */
+.dp__nav_btn {
+  color: #94a3b8 !important;
+  background: transparent !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+.dp__nav_btn:hover {
+  background: rgba(59,130,246,0.15) !important;
+  color: #60a5fa !important;
+}
+
+/* Hide tooltip arrow */
+.dp__arrow_top,
+.dp__arrow_bottom { display: none !important; }
+
+/* Day-of-week header labels */
+.dp__calendar_header_item {
+  color: #475569 !important;
+  font-size: 11px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.06em !important;
+  text-transform: uppercase !important;
+}
+.dp__calendar_header_separator {
+  background: rgba(255,255,255,0.06) !important;
+  margin: 4px 0 !important;
+}
+
+/* Day cells */
+.dp__cell_inner {
+  border-radius: 8px !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: #cbd5e1 !important;
+  transition: all 0.2s ease !important;
+}
+.dp__cell_inner:hover,
+.dp__date_hover:hover {
+  background: linear-gradient(90deg, rgba(59,130,246,0.2) 0%, transparent 100%) !important;
+  color: #ffffff !important;
+}
+
+/* Today highlight */
+.dp__today {
+  border: 1px solid rgba(59,130,246,0.5) !important;
+  color: #60a5fa !important;
+  font-weight: 700 !important;
+}
+
+/* Selected day */
+.dp__active_date {
+  background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
+  color: #ffffff !important;
+  font-weight: 700 !important;
+  box-shadow: 0 0 14px rgba(59,130,246,0.55) !important;
+  border-radius: 8px !important;
+}
+
+/* Days outside current month */
+.dp__cell_offset { color: #334155 !important; }
+
+/* Disabled days */
+.dp__cell_disabled {
+  color: #1e293b !important;
+  cursor: not-allowed !important;
+}
+
+/* Action row (bottom buttons) */
+.dp__action_row {
+  background: transparent !important;
+  border-top: 1px solid rgba(255,255,255,0.06) !important;
+  padding: 8px !important;
+}
+.dp__action_button {
+  font-family: 'Inter', sans-serif !important;
+  font-size: 13px !important;
+  font-weight: 600 !important;
+  border-radius: 8px !important;
+  transition: all 0.2s ease !important;
+}
+.dp__action_cancel { color: #64748b !important; background: transparent !important; }
+.dp__action_select {
+  background: linear-gradient(135deg, rgba(59,130,246,0.35), rgba(59,130,246,0.15)) !important;
+  border: 1px solid rgba(59,130,246,0.45) !important;
+  color: #60a5fa !important;
+}
+.dp__action_select:hover {
+  background: linear-gradient(135deg, rgba(59,130,246,0.55), rgba(59,130,246,0.3)) !important;
+  color: #ffffff !important;
+}
 
 .select-arrow {
   position: absolute;
