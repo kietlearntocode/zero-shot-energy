@@ -340,15 +340,18 @@ def sync():
     ts_start = sync_from.tz_convert("Europe/Brussels") if sync_from.tzinfo else sync_from.tz_localize("UTC").tz_convert("Europe/Brussels")
     ts_end   = sync_to.tz_convert("Europe/Brussels")
 
+    # Tạo buffer lùi về 7 ngày để lấy đủ giá trị cũ làm gốc cho hàm ffill()
+    sync_from_buffer = sync_from - timedelta(days=7)
+
     # Date range for yfinance (cộng thêm 1 vì exclusive end)
-    fin_start = sync_from.date().isoformat()
+    fin_start = sync_from_buffer.date().isoformat()
     fin_end   = (sync_to.date() + timedelta(days=1)).isoformat()
 
     # ── Bước 2: Fetch Finance (Daily → ffill lên hourly) ────────────
     df_finance = fetch_finance_daily(fin_start, fin_end)
 
     # ── Bước 3: Fetch GIE Gas Storage (Daily → ffill lên hourly) ───
-    gas_full = fetch_gie_daily(sync_from.to_pydatetime(), sync_to.to_pydatetime())
+    gas_full = fetch_gie_daily(sync_from_buffer.to_pydatetime(), sync_to.to_pydatetime())
     if not gas_full.empty:
         gas_anomaly = compute_gas_anomaly(gas_full)
     else:
