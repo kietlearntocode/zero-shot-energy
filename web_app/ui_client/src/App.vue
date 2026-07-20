@@ -53,8 +53,6 @@
             <VueDatePicker
               :key="'picker-v2'"
               v-model="selectedDate"
-              :min-date="dateRange.min_date"
-              :max-date="dateRange.max_forecast_date"
               :enableTimePicker="false"
               :timePicker="false"
               auto-apply
@@ -320,7 +318,7 @@ async function onParamsChange() {
 async function goToToday() {
   await fetchDateRange()
   const today = new Date().toISOString().split('T')[0]
-  selectedDate.value = today > dateRange.value.max_forecast_date ? dateRange.value.max_forecast_date : (today < dateRange.value.min_date ? dateRange.value.min_date : today)
+  selectedDate.value = today
   await fetchForecast()
 }
 
