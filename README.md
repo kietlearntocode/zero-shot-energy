@@ -1,5 +1,7 @@
 # Electricity Market Regime Detection
 
+**[Live Demo (Vercel)](https://zero-shot-energy.vercel.app)**
+
 This repository contains the codebase and data pipeline for the research paper on electricity market regime detection and crisis mechanism analysis using the Merit Order theory.
 
 ## Project Structure
