@@ -33,14 +33,18 @@
           <!-- Date Picker -->
           <div class="control-group">
             <label class="control-label">Forecast from</label>
-            <input
-              type="date"
+            <VueDatePicker
               v-model="selectedDate"
-              :min="dateRange.min_date"
-              :max="dateRange.max_forecast_date"
-              @change="onParamsChange"
-              class="custom-date"
-              id="date-picker"
+              :min-date="dateRange.min_date"
+              :max-date="dateRange.max_forecast_date"
+              :enable-time-picker="false"
+              auto-apply
+              dark
+              :clearable="false"
+              model-type="yyyy-MM-dd"
+              format="dd/MM/yyyy"
+              @update:model-value="onParamsChange"
+              class="premium-datepicker"
             />
           </div>
 
@@ -162,8 +166,9 @@
 
 <script setup>
 import { ref, computed, onMounted, watch } from 'vue'
+import VueDatePicker from '@vuepic/vue-datepicker'
+import '@vuepic/vue-datepicker/dist/main.css'
 import axios from 'axios'
-import { use } from 'echarts/core'
 import { LineChart } from 'echarts/charts'
 import {
   GridComponent, TooltipComponent, LegendComponent,
@@ -482,7 +487,7 @@ body {
   align-items: center;
 }
 
-.custom-select, .custom-date {
+.custom-select {
   background: var(--surface2);
   border: 1px solid var(--border2);
   color: var(--text-1);
@@ -497,12 +502,7 @@ body {
   cursor: pointer;
   transition: border-color 0.2s, background 0.2s;
   min-width: 140px;
-}
-
-.custom-date {
-  padding: 8px 14px;
-  min-width: 160px;
-  color-scheme: dark;
+  height: 38px;
 }
 
 .custom-select option {
@@ -510,19 +510,49 @@ body {
   color: var(--text-1);
 }
 
-.custom-date::-webkit-calendar-picker-indicator {
-  cursor: pointer;
-  opacity: 0.8;
-  transition: opacity 0.2s;
-}
-
-.custom-date::-webkit-calendar-picker-indicator:hover {
-  opacity: 1;
-}
-
-.custom-select:focus, .custom-date:focus {
+.custom-select:focus {
   border-color: var(--blue);
   background: rgba(59,130,246,0.08);
+}
+
+/* ── PREMIUM DATEPICKER ── */
+.premium-datepicker {
+  width: 160px;
+}
+
+.dp__theme_dark {
+  --dp-background-color: var(--surface2);
+  --dp-text-color: var(--text-1);
+  --dp-border-color: var(--border2);
+  --dp-hover-color: var(--surface);
+  --dp-primary-color: var(--blue);
+  --dp-border-radius: 8px;
+  --dp-font-family: 'Inter', sans-serif;
+  --dp-menu-min-width: 280px;
+}
+
+.premium-datepicker .dp__input {
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  color: var(--text-1);
+  border-radius: 8px;
+  padding: 8px 12px 8px 36px;
+  font-size: 14px;
+  font-weight: 500;
+  font-family: 'Inter', sans-serif;
+  height: 38px;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.premium-datepicker .dp__input:focus,
+.premium-datepicker .dp__input:hover {
+  border-color: var(--blue);
+  background: rgba(59,130,246,0.08);
+}
+
+.premium-datepicker .dp__icon {
+  color: var(--text-3);
+  margin-left: 4px;
 }
 
 .select-arrow {
