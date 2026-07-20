@@ -657,9 +657,19 @@ body {
 
 /* Ẩn triệt để nút đồng hồ (Time Picker Toggle) và Action Row ở dưới cùng */
 body .dp__action_row, 
-body .dp--action-row {
+body .dp--action-row,
+body .dp__action_buttons,
+body .dp--action-buttons,
+body .dp__time_display,
+body .dp--time-display,
+body .dp__time_picker,
+body .dp--time-picker,
+body .dp__action_row .dp__button,
+body .dp--action-row .dp--button {
   display: none !important;
 }
+
+/* Nhưng tuyệt đối KHÔNG ẩn .dp__button hay .dp--overlay để giữ chức năng chọn tháng/năm */
 
 /* Global VueDatePicker CSS Variables */
 body .dp--theme-dark {
