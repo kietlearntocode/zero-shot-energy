@@ -5,8 +5,8 @@ Input : daily_features_data.csv
 Output: daily_xgb.json + training_report.json
 
 Split: Walk-Forward
-  Train: 2018-01-31 → 2025-12-31 (toàn bộ 17 nước gộp lại)
-  Test : 2026-01-01 → 2026-12-31
+  Train: 2018-01-31 → 2025-11-30 (toàn bộ 17 nước gộp lại, khớp mốc bài báo)
+  Test : 2025-12-01 → 2026-12-31
 """
 
 import os, json, sys
@@ -54,8 +54,8 @@ FEATURE_COLS = [
 TARGET = "Real_Wholesale_Price_EUR"
 
 # Walk-Forward split
-TRAIN_END = "2025-12-31"
-TEST_START = "2026-01-01"
+TRAIN_END = "2025-11-30"
+TEST_START = "2025-12-01"
 TEST_END = "2026-12-31"
 
 
