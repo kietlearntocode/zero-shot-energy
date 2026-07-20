@@ -713,9 +713,9 @@ body .dp--theme-dark {
 
 /* OUTER WRAPPER (teleported popup) - Strip all styles */
 body .dp--menu-wrapper {
-  background: rgba(15, 23, 42, 0.85) !important;
-  backdrop-filter: blur(24px) !important;
-  -webkit-backdrop-filter: blur(24px) !important;
+  background: #0f172a !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
   border: 1px solid rgba(59, 130, 246, 0.3) !important;
   border-radius: 16px !important;
   box-shadow: 0 20px 40px -10px rgba(0,0,0,0.7), 0 0 30px rgba(59,130,246,0.15) !important;
