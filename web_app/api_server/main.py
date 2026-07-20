@@ -134,17 +134,23 @@ def _build_feature_vector(country: str, target_date: pd.Timestamp,
     macro_row_t1 = _get_row(country, target_date - timedelta(days=1))
     macro_row_t2 = _get_row(country, target_date - timedelta(days=2))
 
+    def _safe_get(row, key, default):
+        val = row.get(key)
+        if val is None or pd.isna(val):
+            return default
+        return float(val)
+
     macro = {
-        "TTF_Gas_Lag1":          float(macro_row_t1.get("TTF_Gas_Price", 40.0)),
-        "TTF_Gas_Lag2":          float(macro_row_t2.get("TTF_Gas_Price", 40.0)),
-        "Coal_Lag1":             float(macro_row_t1.get("Coal_Price", 100.0)),
-        "Coal_Lag2":             float(macro_row_t2.get("Coal_Price", 100.0)),
-        "EU_ETS_Lag1":           float(macro_row_t1.get("EU_ETS_Price", 70.0)),
-        "EU_ETS_Lag2":           float(macro_row_t2.get("EU_ETS_Price", 70.0)),
-        "Brent_Oil_Lag1":        float(macro_row_t1.get("Brent_Oil_Price", 80.0)),
-        "Brent_Oil_Lag2":        float(macro_row_t2.get("Brent_Oil_Price", 80.0)),
-        "EU_Gas_Storage_Lag1":   float(macro_row_t1.get("EU_Gas_Storage_Anomaly", 0.0)),
-        "EU_Gas_Storage_Lag2":   float(macro_row_t2.get("EU_Gas_Storage_Anomaly", 0.0)),
+        "TTF_Gas_Lag1":          _safe_get(macro_row_t1, "TTF_Gas_Price", 40.0),
+        "TTF_Gas_Lag2":          _safe_get(macro_row_t2, "TTF_Gas_Price", 40.0),
+        "Coal_Lag1":             _safe_get(macro_row_t1, "Coal_Price", 100.0),
+        "Coal_Lag2":             _safe_get(macro_row_t2, "Coal_Price", 100.0),
+        "EU_ETS_Lag1":           _safe_get(macro_row_t1, "EU_ETS_Price", 70.0),
+        "EU_ETS_Lag2":           _safe_get(macro_row_t2, "EU_ETS_Price", 70.0),
+        "Brent_Oil_Lag1":        _safe_get(macro_row_t1, "Brent_Oil_Price", 80.0),
+        "Brent_Oil_Lag2":        _safe_get(macro_row_t2, "Brent_Oil_Price", 80.0),
+        "EU_Gas_Storage_Lag1":   _safe_get(macro_row_t1, "EU_Gas_Storage_Anomaly", 0.0),
+        "EU_Gas_Storage_Lag2":   _safe_get(macro_row_t2, "EU_Gas_Storage_Anomaly", 0.0),
     }
 
     # ── Cyclical: tính từ target_date ────────────────────────────────────
