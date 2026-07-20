@@ -62,14 +62,23 @@
               format="dd/MM/yyyy"
               @update:model-value="onParamsChange"
               class="premium-datepicker"
+              menu-class-name="powercast-menu"
             >
-              <template #input-icon>
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="icon-blue datepicker-icon">
-                  <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                  <line x1="16" y1="2" x2="16" y2="6"></line>
-                  <line x1="8" y1="2" x2="8" y2="6"></line>
-                  <line x1="3" y1="10" x2="21" y2="10"></line>
-                </svg>
+              <template #trigger>
+                <div class="premium-control" tabindex="0">
+                  <span class="premium-control-value">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="icon-blue">
+                      <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+                      <line x1="16" y1="2" x2="16" y2="6"></line>
+                      <line x1="8" y1="2" x2="8" y2="6"></line>
+                      <line x1="3" y1="10" x2="21" y2="10"></line>
+                    </svg>
+                    {{ formattedSelectedDate }}
+                  </span>
+                  <svg class="premium-arrow" viewBox="0 0 20 20" fill="currentColor">
+                    <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd"/>
+                  </svg>
+                </div>
               </template>
             </VueDatePicker>
           </div>
@@ -314,6 +323,12 @@ async function goToToday() {
 }
 
 // ── Computed ──────────────────────────────────────────────────────────────
+const formattedSelectedDate = computed(() => {
+  if (!selectedDate.value) return 'Select Date'
+  const d = new Date(selectedDate.value)
+  return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' })
+})
+
 const hasActual = computed(() =>
   forecast.value?.forecast?.some(d => d.actual !== null)
 )
@@ -641,12 +656,21 @@ body {
   width: 170px;
 }
 
-.dp__theme_dark {
-  --dp-background-color: rgba(15, 23, 42, 0.95);
+/* Global VueDatePicker CSS Variables */
+body .dp__theme_dark {
+  --dp-background-color: transparent !important; /* Force transparent for glassmorphism */
   --dp-text-color: #f1f5f9;
-  --dp-border-color: rgba(59, 130, 246, 0.3);
+  --dp-border-color: rgba(59, 130, 246, 0.22);
   --dp-hover-color: rgba(59, 130, 246, 0.15);
+  --dp-hover-text-color: #ffffff;
+  --dp-hover-icon-color: #ffffff;
   --dp-primary-color: #3b82f6;
+  --dp-primary-text-color: #ffffff;
+  --dp-secondary-color: rgba(255, 255, 255, 0.06);
+  --dp-border-color-hover: rgba(59, 130, 246, 0.5);
+  --dp-disabled-color: rgba(255, 255, 255, 0.03);
+  --dp-disabled-color-text: #1e293b;
+  --dp-icon-color: #94a3b8;
   --dp-border-radius: 12px;
   --dp-font-family: 'Inter', sans-serif;
   --dp-menu-min-width: 320px;
@@ -682,121 +706,97 @@ body {
   filter: drop-shadow(0 0 4px rgba(96,165,250,0.5));
 }
 
-/* ── CALENDAR POPUP — match market dropdown ── */
-.dp__menu {
-  background: rgba(15, 23, 42, 0.92) !important;
+/* ── CALENDAR POPUP (CUSTOM MENU CLASS) ── */
+.powercast-menu {
+  background: rgba(15, 23, 42, 0.85) !important;
   backdrop-filter: blur(24px) !important;
   -webkit-backdrop-filter: blur(24px) !important;
-  border: 1px solid rgba(59, 130, 246, 0.22) !important;
+  border: 1px solid rgba(59, 130, 246, 0.3) !important;
   border-radius: 16px !important;
-  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.7), 0 0 30px rgba(59,130,246,0.12) !important;
+  box-shadow: 0 20px 40px -10px rgba(0,0,0,0.7), 0 0 30px rgba(59,130,246,0.15) !important;
   font-family: 'Inter', sans-serif !important;
-  padding: 8px !important;
+  padding: 12px !important;
 }
 
-/* Month/year nav buttons */
-.dp__month_year_select {
-  background: transparent !important;
-  color: #f1f5f9 !important;
-  font-size: 14px !important;
+/* Header Text (Month/Year) */
+.powercast-menu .dp__month_year_select {
+  font-size: 15px !important;
   font-weight: 700 !important;
-  font-family: 'Inter', sans-serif !important;
   border-radius: 8px !important;
-  transition: background 0.2s ease !important;
 }
-.dp__month_year_select:hover {
+
+.powercast-menu .dp__month_year_select:hover {
   background: linear-gradient(90deg, rgba(59,130,246,0.18) 0%, transparent 100%) !important;
   color: #60a5fa !important;
 }
 
-/* Prev/Next nav arrow icons */
-.dp__nav_btn {
-  color: #94a3b8 !important;
-  background: transparent !important;
-  border-radius: 8px !important;
-  transition: all 0.2s ease !important;
-}
-.dp__nav_btn:hover {
+/* Nav Arrows */
+.powercast-menu .dp__nav_btn:hover {
   background: rgba(59,130,246,0.15) !important;
   color: #60a5fa !important;
 }
 
-/* Hide tooltip arrow */
-.dp__arrow_top,
-.dp__arrow_bottom { display: none !important; }
-
-/* Day-of-week header labels */
-.dp__calendar_header_item {
+/* Day-of-week Headers */
+.powercast-menu .dp__calendar_header_item {
   color: #475569 !important;
   font-size: 11px !important;
-  font-weight: 700 !important;
-  letter-spacing: 0.06em !important;
-  text-transform: uppercase !important;
-}
-.dp__calendar_header_separator {
-  background: rgba(255,255,255,0.06) !important;
-  margin: 4px 0 !important;
+  font-weight: 800 !important;
+  letter-spacing: 0.05em !important;
 }
 
-/* Day cells */
-.dp__cell_inner {
+/* Date Cells */
+.powercast-menu .dp__cell_inner {
   border-radius: 8px !important;
-  font-size: 13px !important;
+  font-size: 14px !important;
   font-weight: 500 !important;
   color: #cbd5e1 !important;
-  transition: all 0.2s ease !important;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
-.dp__cell_inner:hover,
-.dp__date_hover:hover {
-  background: linear-gradient(90deg, rgba(59,130,246,0.2) 0%, transparent 100%) !important;
+
+/* Hovering a date */
+.powercast-menu .dp__cell_inner:not(.dp__active_date):not(.dp__cell_disabled):hover {
+  background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(59,130,246,0.05)) !important;
   color: #ffffff !important;
+  box-shadow: inset 0 0 0 1px rgba(59,130,246,0.3) !important;
+  transform: scale(1.05) !important;
 }
 
-/* Today highlight */
-.dp__today {
-  border: 1px solid rgba(59,130,246,0.5) !important;
-  color: #60a5fa !important;
-  font-weight: 700 !important;
-}
-
-/* Selected day */
-.dp__active_date {
+/* Active Date (Selected) */
+.powercast-menu .dp__active_date {
   background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
   color: #ffffff !important;
   font-weight: 700 !important;
-  box-shadow: 0 0 14px rgba(59,130,246,0.55) !important;
+  box-shadow: 0 4px 12px rgba(59,130,246,0.4), inset 0 1px 1px rgba(255,255,255,0.2) !important;
   border-radius: 8px !important;
 }
 
-/* Days outside current month */
-.dp__cell_offset { color: #334155 !important; }
-
-/* Disabled days */
-.dp__cell_disabled {
-  color: #1e293b !important;
-  cursor: not-allowed !important;
+/* Today highlight */
+.powercast-menu .dp__today {
+  border: 1px solid rgba(59,130,246,0.6) !important;
+  color: #60a5fa !important;
+  font-weight: 700 !important;
 }
 
-/* Action row (bottom buttons) */
-.dp__action_row {
-  background: transparent !important;
-  border-top: 1px solid rgba(255,255,255,0.06) !important;
-  padding: 8px !important;
+/* Offset days (other month) */
+.powercast-menu .dp__cell_offset {
+  color: #334155 !important;
 }
-.dp__action_button {
-  font-family: 'Inter', sans-serif !important;
-  font-size: 13px !important;
-  font-weight: 600 !important;
-  border-radius: 8px !important;
-  transition: all 0.2s ease !important;
+
+/* Action row styling */
+.powercast-menu .dp__action_row {
+  border-top: 1px solid rgba(255,255,255,0.08) !important;
+  padding-top: 12px !important;
 }
-.dp__action_cancel { color: #64748b !important; background: transparent !important; }
-.dp__action_select {
+
+.powercast-menu .dp__action_select {
   background: linear-gradient(135deg, rgba(59,130,246,0.35), rgba(59,130,246,0.15)) !important;
   border: 1px solid rgba(59,130,246,0.45) !important;
   color: #60a5fa !important;
+  border-radius: 8px !important;
+  font-weight: 600 !important;
 }
-.dp__action_select:hover {
+
+.powercast-menu .dp__action_select:hover {
   background: linear-gradient(135deg, rgba(59,130,246,0.55), rgba(59,130,246,0.3)) !important;
   color: #ffffff !important;
 }
