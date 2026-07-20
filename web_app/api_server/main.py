@@ -287,7 +287,7 @@ def get_forecast(
         if feat_vec is None:
             break
 
-        X = pd.DataFrame([feat_vec])[FEATURE_COLS]
+        X = pd.DataFrame([feat_vec])[FEATURE_COLS].astype(float)
         predicted = float(model.predict(X)[0])
 
         # Lấy actual chỉ để hiển thị lên biểu đồ (đánh giá)
@@ -304,7 +304,7 @@ def get_forecast(
             "weekday":   forecast_date.strftime("%A"),
             "predicted": round(predicted, 2),
             "actual":    round(actual, 2) if actual is not None else None,
-            "inputs":    {k: round(float(v), 4) for k, v in feat_vec.items()},
+            "inputs":    {k: round(float(v), 4) if v is not None else None for k, v in feat_vec.items()},
         })
 
         # CHUNG MỘT CÔNG THỨC DUY NHẤT CHO MỌI NGÀY (Quá khứ hay Tương lai):
