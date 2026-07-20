@@ -657,7 +657,7 @@ body {
 }
 
 /* Global VueDatePicker CSS Variables */
-body .dp__theme_dark {
+body .dp--theme-dark {
   --dp-background-color: transparent !important; /* Force transparent for glassmorphism */
   --dp-text-color: #f1f5f9;
   --dp-border-color: rgba(59, 130, 246, 0.22);
@@ -707,7 +707,8 @@ body .dp__theme_dark {
 }
 
 /* ── CALENDAR POPUP (CUSTOM MENU CLASS) ── */
-.powercast-menu {
+.powercast-menu,
+body .dp--menu-wrapper {
   background: rgba(15, 23, 42, 0.85) !important;
   backdrop-filter: blur(24px) !important;
   -webkit-backdrop-filter: blur(24px) !important;
@@ -719,25 +720,28 @@ body .dp__theme_dark {
 }
 
 /* Header Text (Month/Year) */
-.powercast-menu .dp__month_year_select {
+.powercast-menu .dp--month-year-select {
   font-size: 15px !important;
   font-weight: 700 !important;
   border-radius: 8px !important;
 }
 
-.powercast-menu .dp__month_year_select:hover {
+.powercast-menu .dp--month-year-select:hover {
   background: linear-gradient(90deg, rgba(59,130,246,0.18) 0%, transparent 100%) !important;
   color: #60a5fa !important;
 }
 
 /* Nav Arrows */
-.powercast-menu .dp__nav_btn:hover {
+.powercast-menu .dp--calendar-nav:hover,
+.powercast-menu .dp--nav-btn:hover,
+.powercast-menu [class*="nav"]:hover {
   background: rgba(59,130,246,0.15) !important;
   color: #60a5fa !important;
 }
 
 /* Day-of-week Headers */
-.powercast-menu .dp__calendar_header_item {
+.powercast-menu .dp--calendar-header-item,
+.powercast-menu .dp--calendar-header-cell {
   color: #475569 !important;
   font-size: 11px !important;
   font-weight: 800 !important;
@@ -745,7 +749,8 @@ body .dp__theme_dark {
 }
 
 /* Date Cells */
-.powercast-menu .dp__cell_inner {
+.powercast-menu .dp--cell-inner,
+.powercast-menu .dp--cell {
   border-radius: 8px !important;
   font-size: 14px !important;
   font-weight: 500 !important;
@@ -754,7 +759,8 @@ body .dp__theme_dark {
 }
 
 /* Hovering a date */
-.powercast-menu .dp__cell_inner:not(.dp__active_date):not(.dp__cell_disabled):hover {
+.powercast-menu .dp--cell-inner:not(.dp--active-date):not(.dp--cell-disabled):hover,
+.powercast-menu .dp--cell:not(.dp--active-date):hover {
   background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(59,130,246,0.05)) !important;
   color: #ffffff !important;
   box-shadow: inset 0 0 0 1px rgba(59,130,246,0.3) !important;
@@ -762,7 +768,7 @@ body .dp__theme_dark {
 }
 
 /* Active Date (Selected) */
-.powercast-menu .dp__active_date {
+.powercast-menu .dp--active-date {
   background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
   color: #ffffff !important;
   font-weight: 700 !important;
@@ -771,24 +777,25 @@ body .dp__theme_dark {
 }
 
 /* Today highlight */
-.powercast-menu .dp__today {
+.powercast-menu .dp--today {
   border: 1px solid rgba(59,130,246,0.6) !important;
   color: #60a5fa !important;
   font-weight: 700 !important;
 }
 
 /* Offset days (other month) */
-.powercast-menu .dp__cell_offset {
+.powercast-menu .dp--cell-offset {
   color: #334155 !important;
 }
 
 /* Action row styling */
-.powercast-menu .dp__action_row {
+.powercast-menu .dp--action-row {
   border-top: 1px solid rgba(255,255,255,0.08) !important;
   padding-top: 12px !important;
 }
 
-.powercast-menu .dp__action_select {
+.powercast-menu .dp--action-select,
+.powercast-menu .dp--action-button {
   background: linear-gradient(135deg, rgba(59,130,246,0.35), rgba(59,130,246,0.15)) !important;
   border: 1px solid rgba(59,130,246,0.45) !important;
   color: #60a5fa !important;
@@ -796,7 +803,8 @@ body .dp__theme_dark {
   font-weight: 600 !important;
 }
 
-.powercast-menu .dp__action_select:hover {
+.powercast-menu .dp--action-select:hover,
+.powercast-menu .dp--action-button:hover {
   background: linear-gradient(135deg, rgba(59,130,246,0.55), rgba(59,130,246,0.3)) !important;
   color: #ffffff !important;
 }
