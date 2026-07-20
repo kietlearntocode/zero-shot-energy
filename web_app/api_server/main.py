@@ -272,8 +272,17 @@ def get_forecast(
         )
 
     # ── Kéo Live Actual Prices nếu Tương Lai ───────────────────────────────
+    # Kiểm tra xem có ngày nào bị khuyết Actual Price trong CSV không
+    need_live = False
+    for i in range(7):
+        forecast_date = start_date + timedelta(days=i)
+        actual_row = _get_row(country, forecast_date)
+        if not actual_row or pd.isna(actual_row.get("Real_Wholesale_Price_EUR")):
+            need_live = True
+            break
+
     live_actuals = {}
-    if start_date > max_hist:
+    if need_live:
         live_actuals = fetch_live_actual_prices(country, start_date.strftime("%Y-%m-%d"), days=7)
 
     # ── Rolling 7-day forecast ─────────────────────────────────────────────
@@ -295,7 +304,7 @@ def get_forecast(
         actual = float(actual_row["Real_Wholesale_Price_EUR"]) if actual_row and not pd.isna(actual_row.get("Real_Wholesale_Price_EUR")) else None
 
         # Nếu không có trong CSV, cố lấy từ Live ENTSO-E
-        if actual is None and start_date > max_hist:
+        if actual is None:
             date_str = forecast_date.strftime("%Y-%m-%d")
             actual = live_actuals.get(date_str)
 
