@@ -598,9 +598,9 @@ body {
   top: calc(100% + 12px);
   left: 0;
   right: 0;
-  background: rgba(15, 23, 42, 0.85);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
+  background: #0f172a;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
   border: 1px solid rgba(59, 130, 246, 0.2);
   border-radius: 16px;
   padding: 8px;
@@ -655,9 +655,15 @@ body {
   width: 170px;
 }
 
+/* Ẩn triệt để nút đồng hồ (Time Picker Toggle) và Action Row ở dưới cùng */
+body .dp__action_row, 
+body .dp--action-row {
+  display: none !important;
+}
+
 /* Global VueDatePicker CSS Variables */
 body .dp--theme-dark {
-  --dp-background-color: transparent !important; /* Force transparent for glassmorphism */
+  --dp-background-color: #0f172a !important; /* Solid background */
   --dp-text-color: #f1f5f9;
   --dp-border-color: rgba(59, 130, 246, 0.22);
   --dp-hover-color: rgba(59, 130, 246, 0.15);
