@@ -718,37 +718,42 @@ body .dp--menu-wrapper {
   padding: 4px !important;
 }
 
-/* INNER MENU */
-.powercast-menu {
+/* INNER MENU - Remove its default styling to prevent double borders */
+body .dp--menu-wrapper .dp--menu {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
-  padding: 8px !important;
+}
+
+/* HIDE ARROW AND ACTION ROW (Clock icon) */
+body .dp--arrow,
+body .dp--action-row {
+  display: none !important;
 }
 
 /* Header Text (Month/Year) */
-.powercast-menu .dp--month-year-select {
+body .dp--menu-wrapper .dp--month-year-select {
   font-size: 15px !important;
   font-weight: 700 !important;
   border-radius: 8px !important;
 }
 
-.powercast-menu .dp--month-year-select:hover {
+body .dp--menu-wrapper .dp--month-year-select:hover {
   background: linear-gradient(90deg, rgba(59,130,246,0.18) 0%, transparent 100%) !important;
   color: #60a5fa !important;
 }
 
 /* Nav Arrows */
-.powercast-menu .dp--calendar-nav:hover,
-.powercast-menu .dp--nav-btn:hover,
-.powercast-menu [class*="nav"]:hover {
+body .dp--menu-wrapper .dp--calendar-nav:hover,
+body .dp--menu-wrapper .dp--nav-btn:hover,
+body .dp--menu-wrapper [class*="nav"]:hover {
   background: rgba(59,130,246,0.15) !important;
   color: #60a5fa !important;
 }
 
 /* Day-of-week Headers */
-.powercast-menu .dp--calendar-header-item,
-.powercast-menu .dp--calendar-header-cell {
+body .dp--menu-wrapper .dp--calendar-header-item,
+body .dp--menu-wrapper .dp--calendar-header-cell {
   color: #475569 !important;
   font-size: 11px !important;
   font-weight: 800 !important;
@@ -756,8 +761,8 @@ body .dp--menu-wrapper {
 }
 
 /* Date Cells */
-.powercast-menu .dp--cell-inner,
-.powercast-menu .dp--cell {
+body .dp--menu-wrapper .dp--cell-inner,
+body .dp--menu-wrapper .dp--cell {
   border-radius: 8px !important;
   font-size: 14px !important;
   font-weight: 500 !important;
@@ -766,8 +771,8 @@ body .dp--menu-wrapper {
 }
 
 /* Hovering a date */
-.powercast-menu .dp--cell-inner:not(.dp--active-date):not(.dp--cell-disabled):hover,
-.powercast-menu .dp--cell:not(.dp--active-date):hover {
+body .dp--menu-wrapper .dp--cell-inner:not(.dp--active-date):not(.dp--cell-disabled):hover,
+body .dp--menu-wrapper .dp--cell:not(.dp--active-date):hover {
   background: linear-gradient(135deg, rgba(59,130,246,0.25), rgba(59,130,246,0.05)) !important;
   color: #ffffff !important;
   box-shadow: inset 0 0 0 1px rgba(59,130,246,0.3) !important;
@@ -775,7 +780,7 @@ body .dp--menu-wrapper {
 }
 
 /* Active Date (Selected) */
-.powercast-menu .dp--active-date {
+body .dp--menu-wrapper .dp--active-date {
   background: linear-gradient(135deg, #3b82f6, #2563eb) !important;
   color: #ffffff !important;
   font-weight: 700 !important;
@@ -784,20 +789,15 @@ body .dp--menu-wrapper {
 }
 
 /* Today highlight */
-.powercast-menu .dp--today {
+body .dp--menu-wrapper .dp--today {
   border: 1px solid rgba(59,130,246,0.6) !important;
   color: #60a5fa !important;
   font-weight: 700 !important;
 }
 
 /* Offset days (other month) */
-.powercast-menu .dp--cell-offset {
+body .dp--menu-wrapper .dp--cell-offset {
   color: #334155 !important;
-}
-
-/* Action row styling (HIDE completely) */
-.powercast-menu .dp--action-row {
-  display: none !important;
 }
 
 .select-arrow {
