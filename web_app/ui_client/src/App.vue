@@ -76,7 +76,7 @@
 
           <!-- Today Button -->
           <div class="control-group" style="justify-content: flex-end;">
-            <button @click="goToToday" class="premium-btn" title="Jump to latest available date">
+            <button @click="goToToday" class="btn-today" title="Jump to latest available date">
               Today
             </button>
           </div>
@@ -680,6 +680,7 @@ body {
   margin-left: 8px;
   filter: drop-shadow(0 0 4px rgba(96,165,250,0.5));
 }
+
 
 .select-arrow {
   position: absolute;
