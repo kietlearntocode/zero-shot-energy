@@ -244,6 +244,7 @@ def get_forecast(
     country: str = Query("DE", description="Country ISO-2"),
     date:    str = Query(...,   description="Start date YYYY-MM-DD"),
 ):
+    global df_feat
     if model is None:
         raise HTTPException(status_code=500, detail="Model not loaded — run train_daily.py")
     if df_feat is None:
@@ -284,6 +285,27 @@ def get_forecast(
     live_actuals = {}
     if need_live:
         live_actuals = fetch_live_actual_prices(country, start_date.strftime("%Y-%m-%d"), days=7)
+        # Nếu kéo được giá trị mới, tự động cập nhật vào RAM và ghi xuống CSV để dùng cho lần sau
+        if live_actuals and df_feat is not None:
+            updated = False
+            for d_str, price in live_actuals.items():
+                if price is not None:
+                    d_dt = pd.to_datetime(d_str)
+                    mask = (df_feat["Country"] == country) & (df_feat["Date"] == d_dt)
+                    if mask.any():
+                        df_feat.loc[mask, "Real_Wholesale_Price_EUR"] = price
+                        updated = True
+                    else:
+                        new_row = {"Country": country, "Date": d_dt, "Real_Wholesale_Price_EUR": price}
+                        df_feat = pd.concat([df_feat, pd.DataFrame([new_row])], ignore_index=True)
+                        updated = True
+            if updated:
+                df_feat = df_feat.sort_values(["Country", "Date"])
+                try:
+                    df_feat.to_csv(DATA_PATH, index=False)
+                    print(f"[CACHE] Updated and saved {len(live_actuals)} live actual prices to CSV.")
+                except Exception as e:
+                    print(f"[CACHE] Could not save CSV: {e}")
 
     # ── Rolling 7-day forecast ─────────────────────────────────────────────
     results = []
