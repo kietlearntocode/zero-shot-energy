@@ -140,22 +140,6 @@
           <v-chart :option="chartOption" :autoresize="true" class="chart-container" />
         </div>
 
-        <!-- ── MACRO INDICATORS ──────────────────────────────────────── -->
-        <div class="macro-section">
-          <div class="macro-title">Market Context (T-1)</div>
-          <div class="macro-grid">
-            <div class="macro-card" v-for="(item, key) in macroItems" :key="key">
-              <div class="macro-icon">
-                <component :is="item.icon" />
-              </div>
-              <div class="macro-info">
-                <div class="macro-name">{{ item.label }}</div>
-                <div class="macro-value">{{ formatMacro(item.value, item.unit) }}</div>
-              </div>
-              <div :class="['macro-bar', item.color]" :style="{ width: item.pct + '%' }"></div>
-            </div>
-          </div>
-        </div>
       </template>
 
       <!-- Empty state -->
@@ -280,19 +264,6 @@ const hasActual = computed(() =>
   forecast.value?.forecast?.some(d => d.actual !== null)
 )
 
-const macroItems = computed(() => {
-  if (!forecast.value?.macro_snapshot) return []
-  const s = forecast.value.macro_snapshot
-  return [
-    { label: 'TTF Gas',  value: s.TTF_Gas_Lag1,          unit: '€/MWh', color: 'bar-amber',   pct: clamp((s.TTF_Gas_Lag1   / 120) * 100, 5, 95) },
-    { label: 'Coal API2',value: s.Coal_Lag1,             unit: '$/t',   color: 'bar-gray',    pct: clamp((s.Coal_Lag1      / 250) * 100, 5, 95) },
-    { label: 'EU ETS',   value: s.EU_ETS_Lag1,           unit: '€/t',   color: 'bar-green',   pct: clamp((s.EU_ETS_Lag1    / 150) * 100, 5, 95) },
-    { label: 'Brent',    value: s.Brent_Oil_Lag1,        unit: '$/bbl', color: 'bar-orange',  pct: clamp((s.Brent_Oil_Lag1 / 120) * 100, 5, 95) },
-    { label: 'Avg Res Load',   value: s.Country_Avg_Residual_Load, unit: 'MW',color: 'bar-blue',    pct: clamp((s.Country_Avg_Residual_Load / 40000) * 100, 5, 95) },
-    { label: 'Gas Stor', value: s.EU_Gas_Storage_Lag1,   unit: '%',     color: 'bar-teal',    pct: clamp((s.EU_Gas_Storage_Lag1 * 100 + 50), 5, 95) },
-  ]
-})
-
 const chartOption = computed(() => {
   if (!forecast.value?.forecast) return {}
   const days = forecast.value.forecast
@@ -385,13 +356,6 @@ const chartOption = computed(() => {
 function formatShortDate(dateStr) {
   const d = new Date(dateStr)
   return d.toLocaleDateString('en-GB', { day: '2-digit', month: 'short' })
-}
-
-function formatMacro(value, unit) {
-  if (value === null || value === undefined || isNaN(value)) return '—'
-  if (unit === 'MW') return Math.round(value).toLocaleString() + ' ' + unit
-  if (unit === '%') return (value * 100).toFixed(1) + '%'
-  return value.toFixed(1) + ' ' + unit
 }
 
 function getPriceLevel(price) {
@@ -539,6 +503,21 @@ body {
   padding: 8px 14px;
   min-width: 160px;
   color-scheme: dark;
+}
+
+.custom-select option {
+  background-color: var(--bg);
+  color: var(--text-1);
+}
+
+.custom-date::-webkit-calendar-picker-indicator {
+  cursor: pointer;
+  opacity: 0.8;
+  transition: opacity 0.2s;
+}
+
+.custom-date::-webkit-calendar-picker-indicator:hover {
+  opacity: 1;
 }
 
 .custom-select:focus, .custom-date:focus {
@@ -843,71 +822,7 @@ body {
   width: 100%;
 }
 
-/* ── MACRO INDICATORS ── */
-.macro-section { margin-bottom: 24px; }
 
-.macro-title {
-  font-size: 13px;
-  font-weight: 600;
-  color: var(--text-3);
-  letter-spacing: 0.06em;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-
-.macro-grid {
-  display: grid;
-  grid-template-columns: repeat(6, 1fr);
-  gap: 10px;
-}
-
-.macro-card {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 16px;
-  position: relative;
-  overflow: hidden;
-  transition: border-color 0.2s;
-}
-
-.macro-card:hover {
-  border-color: var(--border2);
-}
-
-.macro-info { position: relative; z-index: 1; }
-.macro-icon { display: none; }
-
-.macro-name {
-  font-size: 11px;
-  color: var(--text-3);
-  font-weight: 600;
-  letter-spacing: 0.04em;
-  margin-bottom: 6px;
-}
-
-.macro-value {
-  font-size: 18px;
-  font-weight: 700;
-  color: var(--text-1);
-  letter-spacing: -0.02em;
-}
-
-.macro-bar {
-  position: absolute;
-  bottom: 0; left: 0;
-  height: 3px;
-  border-radius: 0 2px 0 0;
-  opacity: 0.7;
-  transition: width 0.5s ease;
-}
-
-.bar-amber  { background: var(--amber); }
-.bar-gray   { background: #6b7280; }
-.bar-green  { background: var(--green); }
-.bar-orange { background: #f97316; }
-.bar-blue   { background: var(--blue); }
-.bar-teal   { background: #14b8a6; }
 
 /* ── EMPTY ── */
 .empty-state {
@@ -936,14 +851,12 @@ body {
 /* ── RESPONSIVE ── */
 @media (max-width: 1024px) {
   .cards-grid { grid-template-columns: repeat(4, 1fr); }
-  .macro-grid { grid-template-columns: repeat(3, 1fr); }
 }
 
 @media (max-width: 768px) {
   .header-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
   .header-controls { flex-wrap: wrap; }
   .cards-grid { grid-template-columns: repeat(2, 1fr); }
-  .macro-grid { grid-template-columns: repeat(2, 1fr); }
   .footer { flex-direction: column; gap: 8px; }
   .main { padding: 20px 16px; }
 }
