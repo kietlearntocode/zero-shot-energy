@@ -1,17 +1,17 @@
 @echo off
 echo ===================================================
-echo Khởi động Hệ thống Dự báo Giá điện (Ember)
+echo Starting Ember Electricity Price Forecast System
 echo ===================================================
 echo.
 
-echo [1/2] Đang bật Backend (FastAPI) trong cửa sổ mới...
+echo [1/2] Starting Backend (FastAPI) in a new window...
 start "Backend - FastAPI" cmd /k ".\venv\Scripts\activate && cd web_app\api_server && uvicorn main:app --reload --port 8000"
 
-echo [2/2] Đang bật Frontend (Vue) trong cửa sổ mới...
+echo [2/2] Starting Frontend (Vue) in a new window...
 start "Frontend - Vue/Vite" cmd /k "cd web_app\ui_client && npm run dev"
 
 echo.
-echo Hoàn tất! Vui lòng chờ vài giây để 2 server chạy xong.
-echo Sau đó hãy mở trình duyệt và truy cập: http://localhost:5173
+echo Complete! Please wait a few seconds for the servers to initialize.
+echo Then, open your browser and navigate to: http://localhost:5173
 echo.
 pause
