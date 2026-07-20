@@ -710,14 +710,6 @@ body .dp--theme-dark {
 
 /* OUTER WRAPPER (teleported popup) - Strip all styles */
 body .dp--menu-wrapper {
-  background: transparent !important;
-  border: none !important;
-  box-shadow: none !important;
-  padding: 0 !important;
-}
-
-/* INNER MENU (The actual popup container) */
-.powercast-menu {
   background: rgba(15, 23, 42, 0.85) !important;
   backdrop-filter: blur(24px) !important;
   -webkit-backdrop-filter: blur(24px) !important;
@@ -728,16 +720,24 @@ body .dp--menu-wrapper {
   padding: 8px !important;
 }
 
+/* INNER MENU - Strip its default styling to prevent double borders */
+body .dp--menu-wrapper .dp--menu,
+body .dp--menu-wrapper .dp--menu-inner {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
 /* HIDE ARROW, ACTION ROW, TIME PICKER BUTTONS, OVERLAYS */
 body .dp--arrow,
-.powercast-menu .dp--action-row,
-.powercast-menu .dp--action-buttons,
-.powercast-menu .dp--time-display,
-.powercast-menu .dp--time-picker-inline-container,
-.powercast-menu .dp--time-overlay-btn,
-.powercast-menu .dp--overlay-action,
-.powercast-menu .dp--button,
-.powercast-menu .dp--overlay {
+body .dp--menu-wrapper .dp--action-row,
+body .dp--menu-wrapper .dp--action-buttons,
+body .dp--menu-wrapper .dp--time-display,
+body .dp--menu-wrapper .dp--time-picker-inline-container,
+body .dp--menu-wrapper .dp--time-overlay-btn,
+body .dp--menu-wrapper .dp--overlay-action,
+body .dp--menu-wrapper .dp--button,
+body .dp--menu-wrapper .dp--overlay {
   display: none !important;
   pointer-events: none !important;
 }
