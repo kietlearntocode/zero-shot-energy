@@ -725,20 +725,6 @@ body .dp--menu-wrapper .dp--menu-inner {
   box-shadow: none !important;
 }
 
-/* HIDE ARROW, ACTION ROW, TIME PICKER BUTTONS, OVERLAYS */
-body .dp--arrow,
-body .dp--menu-wrapper .dp--action-row,
-body .dp--menu-wrapper .dp--action-buttons,
-body .dp--menu-wrapper .dp--time-display,
-body .dp--menu-wrapper .dp--time-picker-inline-container,
-body .dp--menu-wrapper .dp--time-overlay-btn,
-body .dp--menu-wrapper .dp--overlay-action,
-body .dp--menu-wrapper .dp--button,
-body .dp--menu-wrapper .dp--overlay {
-  display: none !important;
-  pointer-events: none !important;
-}
-
 /* Header Text (Month/Year) */
 body .dp--menu-wrapper .dp--month-year-select {
   font-size: 15px !important;
