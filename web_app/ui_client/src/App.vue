@@ -51,6 +51,7 @@
           <div class="control-group">
             <label class="control-label">Forecast from</label>
             <VueDatePicker
+              :key="'picker-v2'"
               v-model="selectedDate"
               :min-date="dateRange.min_date"
               :max-date="dateRange.max_forecast_date"
@@ -719,7 +720,8 @@ body .dp--menu-wrapper {
 }
 
 /* INNER MENU - Remove its default styling to prevent double borders */
-body .dp--menu-wrapper .dp--menu {
+body .dp--menu-wrapper .dp--menu,
+body .dp--menu-wrapper .dp--menu-inner {
   background: transparent !important;
   border: none !important;
   box-shadow: none !important;
