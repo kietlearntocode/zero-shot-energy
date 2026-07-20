@@ -706,8 +706,7 @@ body .dp--theme-dark {
   filter: drop-shadow(0 0 4px rgba(96,165,250,0.5));
 }
 
-/* ── CALENDAR POPUP (CUSTOM MENU CLASS) ── */
-.powercast-menu,
+/* OUTER WRAPPER (teleported popup) */
 body .dp--menu-wrapper {
   background: rgba(15, 23, 42, 0.85) !important;
   backdrop-filter: blur(24px) !important;
@@ -716,7 +715,15 @@ body .dp--menu-wrapper {
   border-radius: 16px !important;
   box-shadow: 0 20px 40px -10px rgba(0,0,0,0.7), 0 0 30px rgba(59,130,246,0.15) !important;
   font-family: 'Inter', sans-serif !important;
-  padding: 12px !important;
+  padding: 4px !important;
+}
+
+/* INNER MENU */
+.powercast-menu {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 8px !important;
 }
 
 /* Header Text (Month/Year) */
@@ -788,25 +795,9 @@ body .dp--menu-wrapper {
   color: #334155 !important;
 }
 
-/* Action row styling */
+/* Action row styling (HIDE completely) */
 .powercast-menu .dp--action-row {
-  border-top: 1px solid rgba(255,255,255,0.08) !important;
-  padding-top: 12px !important;
-}
-
-.powercast-menu .dp--action-select,
-.powercast-menu .dp--action-button {
-  background: linear-gradient(135deg, rgba(59,130,246,0.35), rgba(59,130,246,0.15)) !important;
-  border: 1px solid rgba(59,130,246,0.45) !important;
-  color: #60a5fa !important;
-  border-radius: 8px !important;
-  font-weight: 600 !important;
-}
-
-.powercast-menu .dp--action-select:hover,
-.powercast-menu .dp--action-button:hover {
-  background: linear-gradient(135deg, rgba(59,130,246,0.55), rgba(59,130,246,0.3)) !important;
-  color: #ffffff !important;
+  display: none !important;
 }
 
 .select-arrow {
