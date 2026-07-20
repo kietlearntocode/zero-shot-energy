@@ -725,9 +725,13 @@ body .dp--menu-wrapper .dp--menu {
   box-shadow: none !important;
 }
 
-/* HIDE ARROW AND ACTION ROW (Clock icon) */
+/* HIDE ARROW AND TIME PICKER / ACTION ROW */
 body .dp--arrow,
-body .dp--action-row {
+body .dp--action-row,
+body .dp--action-buttons,
+body .dp--time-display,
+body .dp--time-picker-inline-container,
+body .dp--time-overlay-btn {
   display: none !important;
 }
 
