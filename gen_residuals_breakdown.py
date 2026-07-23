@@ -102,10 +102,10 @@ def main():
 
     # ── Tính global limits (bỏ qua 1% outlier cực đoan) ────────────────────────
     # Khóa cứng các mốc giới hạn để tránh bị nhiễu bởi các điểm outlier cực đoan (như 2800 ở Pháp)
-    x_min = -100
-    x_max = 600
+    x_min = -150
+    x_max = 1000
     y_min = -300
-    y_max = 600
+    y_max = 1000
 
     print(f"Global X: [{x_min:.0f}, {x_max:.0f}]  |  Global Y: [{y_min:.0f}, {y_max:.0f}]")
 
@@ -142,9 +142,9 @@ def main():
         ax.set_xlim(x_min, x_max)
         ax.set_ylim(y_min, y_max)
         
-        # Mốc chia mỗi 100 đơn vị
-        ax.xaxis.set_major_locator(MultipleLocator(100))
-        ax.yaxis.set_major_locator(MultipleLocator(100))
+        # Thiết lập mốc chia lưới
+        ax.xaxis.set_major_locator(MultipleLocator(150))
+        ax.yaxis.set_major_locator(MultipleLocator(150))
 
         ax.legend(
             handles=[
