@@ -62,6 +62,7 @@ model   = None
 df_feat = None
 scalers = {}
 country_profiles_dict = {}
+_live_api_cache = {}
 
 
 @app.on_event("startup")
@@ -303,7 +304,12 @@ def get_forecast(
 
     live_actuals = {}
     if need_live:
-        live_actuals = fetch_live_actual_prices(country, start_date.strftime("%Y-%m-%d"), days=7)
+        cache_key = f"{country}_{start_date.strftime('%Y-%m-%d')}"
+        if cache_key in _live_api_cache:
+            live_actuals = _live_api_cache[cache_key]
+        else:
+            live_actuals = fetch_live_actual_prices(country, start_date.strftime("%Y-%m-%d"), days=7)
+            _live_api_cache[cache_key] = live_actuals
         # Nếu kéo được giá trị mới, tự động cập nhật vào RAM và ghi xuống CSV để dùng cho lần sau
         if live_actuals and df_feat is not None:
             updated = False
