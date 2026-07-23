@@ -233,11 +233,11 @@ const markets = ['DE']
 const loading = ref(true)
 const error = ref(null)
 const forecast = ref(null)
-const selectedDate = ref('2026-07-20')
+const selectedDate = ref('')
 const selectedCountry = ref('DE')
 const dateRange = ref({
   min_date: '2022-01-01',
-  max_forecast_date: '2026-07-26'
+  max_forecast_date: '2026-07-27'
 })
 
 // Premium Dropdown State
@@ -317,7 +317,7 @@ async function onParamsChange() {
 async function goToToday() {
   await fetchDateRange()
   const today = new Date().toISOString().split('T')[0]
-  selectedDate.value = today
+  selectedDate.value = today > dateRange.value.max_forecast_date ? dateRange.value.max_forecast_date : (today < dateRange.value.min_date ? dateRange.value.min_date : today)
   await fetchForecast()
 }
 
