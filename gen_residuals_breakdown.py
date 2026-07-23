@@ -101,19 +101,11 @@ def main():
         data_per_country[country] = (df_c, r2)
 
     # ── Tính global limits (bỏ qua 1% outlier cực đoan) ────────────────────────
-    all_actual_combined   = pd.concat(all_actuals)
-    all_residual_combined = pd.concat(all_residuals)
-
-    x_min = float(all_actual_combined.min())
-    x_max = float(all_actual_combined.max())
-    y_min = float(all_residual_combined.min())
-    y_max = float(all_residual_combined.max())
-
-    # Làm tròn ra ngoài mốc 100 gần nhất cho đẹp
-    x_min = np.floor(x_min / 100) * 100
-    x_max = np.ceil(x_max / 100) * 100
-    y_min = np.floor(y_min / 100) * 100
-    y_max = np.ceil(y_max / 100) * 100
+    # Khóa cứng các mốc giới hạn để tránh bị nhiễu bởi các điểm outlier cực đoan (như 2800 ở Pháp)
+    x_min = -100
+    x_max = 600
+    y_min = -300
+    y_max = 600
 
     print(f"Global X: [{x_min:.0f}, {x_max:.0f}]  |  Global Y: [{y_min:.0f}, {y_max:.0f}]")
 
