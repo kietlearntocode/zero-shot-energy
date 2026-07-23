@@ -120,7 +120,7 @@ def main():
     from matplotlib.ticker import MultipleLocator
 
     # ── Vẽ biểu đồ ──────────────────────────────────────────────────────────────
-    fig, axes = plt.subplots(2, 3, figsize=(20, 12), sharex=True, sharey=True)
+    fig, axes = plt.subplots(2, 3, figsize=(20, 12))
     axes_flat = axes.flatten()
 
     for idx, country in enumerate(COUNTRIES):
