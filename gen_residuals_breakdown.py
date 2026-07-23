@@ -50,7 +50,7 @@ PALETTE = {
     'Mid':         '#2ecc71',   # Xanh lá
 }
 
-LABEL_ORDER = ['High (>P90)', 'Low (<P10)', 'Mid']
+LABEL_ORDER = ['High (>P90)', 'Mid', 'Low (<P10)']
 
 
 def fit_ols(df, features):
@@ -134,7 +134,8 @@ def main():
             )
 
         ax.axhline(0, color='black', lw=0.9, ls='--')
-        ax.set_title(f'{country}   $R^2$={r2:.3f}', fontsize=13, fontweight='bold')
+        # Tiêu đề với giá trị R^2 lấy 4 chữ số thập phân
+        ax.set_title(f'{country}   $R^2$={r2:.4f}', fontsize=13, fontweight='bold')
         ax.set_xlabel('Actual Price (EUR/MWh)', fontsize=10)
         ax.set_ylabel('OLS Residual (EUR/MWh)', fontsize=10)
 
