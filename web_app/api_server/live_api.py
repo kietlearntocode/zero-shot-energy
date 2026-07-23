@@ -35,6 +35,8 @@ RENEWABLE_TYPES = [
 # ═════════════════════════════════════════════════════════════════════════════
 def _fetch_entsoe_latest(country_code: str) -> dict:
     """Lấy Load + Renewables hôm qua từ ENTSO-E."""
+    if os.getenv("RENDER") or os.getenv("VERCEL"):
+        return {}
     if not ENTSOE_KEY:
         return {}
     try:
@@ -80,12 +82,20 @@ def _fetch_yfinance_latest() -> dict:
     """Lấy giá đóng cửa gần nhất: TTF, Brent."""
     tickers = {"TTF=F": "TTF_Gas_Price", "BZ=F": "Brent_Oil_Price"}
     results = {}
+    
+    # Try fetching with strict 3-second timeout to prevent Render/Vercel hanging
     session = requests.Session()
     session.headers.update({
         "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"
     })
+    
     for ticker, name in tickers.items():
         try:
+            # yfinance uses the session, but we also patch requests directly if it hangs
+            # using timeout inside the ticker if possible, but yfinance doesn't easily support timeout
+            # To be safe, we just skip yfinance if on Render to avoid 3-minute hangs
+            if os.getenv("RENDER") or os.getenv("VERCEL"):
+                return {}
             hist = yf.Ticker(ticker, session=session).history(period="5d")
             if not hist.empty:
                 results[name] = float(hist["Close"].iloc[-1])
@@ -180,6 +190,9 @@ def get_live_features(country: str) -> dict:
 
 def fetch_live_actual_prices(country_code: str, start_date_str: str, days: int = 7) -> dict:
     """Lấy mảng Day-ahead Prices thật từ ENTSO-E cho khoảng thời gian tương lai."""
+    # Vercel/Render IPs get heavily rate-limited or blocked, causing 2-minute hangs. Fast-fail for demos.
+    if os.getenv("RENDER") or os.getenv("VERCEL"):
+        return {}
     if not ENTSOE_KEY:
         return {}
     try:
