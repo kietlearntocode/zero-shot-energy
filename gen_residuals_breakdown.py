@@ -117,8 +117,10 @@ def main():
 
     print(f"Global X: [{x_min:.0f}, {x_max:.0f}]  |  Global Y: [{y_min:.0f}, {y_max:.0f}]")
 
+    from matplotlib.ticker import MultipleLocator
+
     # ── Vẽ biểu đồ ──────────────────────────────────────────────────────────────
-    fig, axes = plt.subplots(3, 2, figsize=(14, 18), sharex=True, sharey=True)
+    fig, axes = plt.subplots(2, 3, figsize=(20, 12), sharex=True, sharey=True)
     axes_flat = axes.flatten()
 
     for idx, country in enumerate(COUNTRIES):
@@ -147,6 +149,10 @@ def main():
         # Áp dụng global limits
         ax.set_xlim(x_min, x_max)
         ax.set_ylim(y_min, y_max)
+        
+        # Mốc chia mỗi 100 đơn vị
+        ax.xaxis.set_major_locator(MultipleLocator(100))
+        ax.yaxis.set_major_locator(MultipleLocator(100))
 
         ax.legend(
             handles=[
