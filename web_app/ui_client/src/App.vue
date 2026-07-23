@@ -236,8 +236,8 @@ const forecast = ref(null)
 const selectedDate = ref('')
 const selectedCountry = ref('DE')
 const dateRange = ref({
-  min_date: '2022-01-01',
-  max_forecast_date: '2026-07-27'
+  min_date: '',
+  max_forecast_date: ''
 })
 
 // Premium Dropdown State
