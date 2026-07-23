@@ -104,16 +104,16 @@ def main():
     all_actual_combined   = pd.concat(all_actuals)
     all_residual_combined = pd.concat(all_residuals)
 
-    x_min = float(np.percentile(all_actual_combined,   0.5))
-    x_max = float(np.percentile(all_actual_combined,  99.5))
-    y_min = float(np.percentile(all_residual_combined, 0.5))
-    y_max = float(np.percentile(all_residual_combined, 99.5))
+    x_min = float(all_actual_combined.min())
+    x_max = float(all_actual_combined.max())
+    y_min = float(all_residual_combined.min())
+    y_max = float(all_residual_combined.max())
 
-    # Làm tròn cho đẹp
-    x_min = np.floor(x_min / 50) * 50
-    x_max = max(np.ceil(x_max / 50) * 50, 600)
-    y_min = np.floor(y_min / 50) * 50
-    y_max = np.ceil(y_max / 50) * 50
+    # Làm tròn ra ngoài mốc 100 gần nhất cho đẹp
+    x_min = np.floor(x_min / 100) * 100
+    x_max = np.ceil(x_max / 100) * 100
+    y_min = np.floor(y_min / 100) * 100
+    y_max = np.ceil(y_max / 100) * 100
 
     print(f"Global X: [{x_min:.0f}, {x_max:.0f}]  |  Global Y: [{y_min:.0f}, {y_max:.0f}]")
 
