@@ -21,7 +21,7 @@ from sklearn.metrics import r2_score
 
 # ── Đường dẫn ──────────────────────────────────────────────────────────────────
 ROOT     = r"d:\Projects\data\ember"
-DATA_CSV = os.path.join(ROOT, 'data', 'processed', 'master_dataset_hourly.csv')
+DATA_CSV = os.path.join(ROOT, 'data', 'processed', 'electricity_dataset.csv')
 OUT_DIR  = os.path.join(ROOT, 'reports', 'figures', 'scratch')
 os.makedirs(OUT_DIR, exist_ok=True)
 
