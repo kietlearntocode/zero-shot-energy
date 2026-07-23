@@ -135,6 +135,19 @@ def _build_feature_vector(country: str, target_date: pd.Timestamp,
     macro_row_t1 = _get_row(country, target_date - timedelta(days=1))
     macro_row_t2 = _get_row(country, target_date - timedelta(days=2))
 
+    # Tích hợp Fallback Động (Smart Live Features)
+    if not macro_row_t1:
+        cache_key = f"live_feat_{country}"
+        if cache_key not in _live_api_cache:
+            _live_api_cache[cache_key] = get_live_features(country)
+        macro_row_t1 = _live_api_cache[cache_key]
+    
+    if not macro_row_t2:
+        cache_key = f"live_feat_{country}"
+        if cache_key not in _live_api_cache:
+            _live_api_cache[cache_key] = get_live_features(country)
+        macro_row_t2 = _live_api_cache[cache_key]
+
     def _safe_get(row, key):
         val = row.get(key)
         if val is None or pd.isna(val):
