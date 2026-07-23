@@ -111,7 +111,7 @@ def main():
 
     # Làm tròn cho đẹp
     x_min = np.floor(x_min / 50) * 50
-    x_max = np.ceil(x_max / 50) * 50
+    x_max = max(np.ceil(x_max / 50) * 50, 600)
     y_min = np.floor(y_min / 50) * 50
     y_max = np.ceil(y_max / 50) * 50
 
