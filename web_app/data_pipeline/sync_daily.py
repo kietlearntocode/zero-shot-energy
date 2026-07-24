@@ -27,7 +27,7 @@ GIE_KEY    = os.getenv("GIE_API_KEY", "")
 
 # ── Đường dẫn ────────────────────────────────────────────────────────────────
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
-MASTER_CSV  = os.path.join(BASE_DIR, "../../data/processed/master_dataset_hourly.csv")
+MASTER_CSV  = os.path.join(BASE_DIR, "web_master_dataset.csv")
 RECENT_CSV  = os.path.join(BASE_DIR, "recent_data.csv")
 
 # ── 17 nước train + mã ENTSO-E ─────────────────────────────────────────────────
@@ -69,22 +69,23 @@ FINANCE_TICKERS = {
 # ═════════════════════════════════════════════════════════════════════════════
 # 1. Tự phát hiện days cuối cùng đã có
 # ═════════════════════════════════════════════════════════════════════════════
-def get_last_datetime() -> pd.Timestamp:
-    last = None
-    for path in [RECENT_CSV, MASTER_CSV]:
+def get_last_datetimes() -> dict:
+    last_dates = {}
+    for path in [MASTER_CSV, RECENT_CSV]:
         if os.path.exists(path):
             try:
-                df = pd.read_csv(path, usecols=["Datetime"])
+                df = pd.read_csv(path, usecols=["Datetime", "Country"], low_memory=False)
                 df["Datetime"] = pd.to_datetime(df["Datetime"], utc=True)
-                candidate = df["Datetime"].max()
-                if last is None or candidate > last:
-                    last = candidate
-                print(f"  [{os.path.basename(path)}] -> last: {candidate}")
+                grouped = df.groupby("Country")["Datetime"].max()
+                for c, dt in grouped.items():
+                    if c not in last_dates or dt > last_dates[c]:
+                        last_dates[c] = dt
+                print(f"  [{os.path.basename(path)}] -> max dates loaded for {len(grouped)} countries")
             except Exception as e:
                 print(f"  Warn: {path}: {e}")
-    if last is None:
+    if not last_dates:
         raise RuntimeError("No data files found!")
-    return last
+    return last_dates
 
 
 # ═════════════════════════════════════════════════════════════════════════════
@@ -323,34 +324,30 @@ def sync():
     print("=" * 60)
 
     # ── Bước 1: Phát hiện gap ───────────────────────────────────────
-    last_dt  = get_last_datetime()
-    sync_from = last_dt + timedelta(hours=1)
-    sync_to   = pd.Timestamp.now(tz="UTC").floor("h")
+    last_dates = get_last_datetimes()
+    sync_to = pd.Timestamp.now(tz="UTC").floor("h")
 
-    gap_days = (sync_to - sync_from).days
-    if gap_days <= 0:
+    # Fetch daily finance/gas based on the EARLIEST sync_from across all countries
+    min_last_dt = min(last_dates.values())
+    global_sync_from = min_last_dt + timedelta(hours=1)
+    
+    if global_sync_from >= sync_to:
         print("\n Data is up-to-date. No sync needed.")
         return
 
-    print(f"\n Gap detected: {gap_days} days")
-    print(f"  From: {sync_from.date()}")
-    print(f"  To: {sync_to.date()}")
-
-    # UTC window for ENTSO-E
-    ts_start = sync_from.tz_convert("Europe/Brussels") if sync_from.tzinfo else sync_from.tz_localize("UTC").tz_convert("Europe/Brussels")
-    ts_end   = sync_to.tz_convert("Europe/Brussels")
+    print(f"\n Max Gap detected: {(sync_to - global_sync_from).days} days")
+    print(f"  From: {global_sync_from.date()} To: {sync_to.date()}")
 
     # Tạo buffer lùi về 7 ngày để lấy đủ giá trị cũ làm gốc cho hàm ffill()
-    sync_from_buffer = sync_from - timedelta(days=7)
+    sync_from_buffer = global_sync_from - timedelta(days=7)
 
-    # Date range for yfinance (cộng thêm 1 vì exclusive end)
     fin_start = sync_from_buffer.date().isoformat()
     fin_end   = (sync_to.date() + timedelta(days=1)).isoformat()
 
-    # ── Bước 2: Fetch Finance (Daily → ffill lên hourly) ────────────
+    # ── Bước 2: Fetch Finance ────────────
     df_finance = fetch_finance_daily(fin_start, fin_end)
 
-    # ── Bước 3: Fetch GIE Gas Storage (Daily → ffill lên hourly) ───
+    # ── Bước 3: Fetch GIE Gas Storage ───
     gas_full = fetch_gie_daily(sync_from_buffer.to_pydatetime(), sync_to.to_pydatetime())
     if not gas_full.empty:
         gas_anomaly = compute_gas_anomaly(gas_full)
@@ -361,13 +358,22 @@ def sync():
     all_country_dfs = []
 
     for country_iso, entsoe_code in COUNTRIES.items():
-        print(f"\n[ENTSO-E] Country: {country_iso} ({entsoe_code})")
+        c_last = last_dates.get(country_iso, global_sync_from - timedelta(hours=1))
+        c_sync_from = c_last + timedelta(hours=1)
+        
+        if c_sync_from >= sync_to:
+            print(f"\n[ENTSO-E] Country: {country_iso} is up to date.")
+            continue
+            
+        print(f"\n[ENTSO-E] Country: {country_iso} ({entsoe_code}) -> Syncing {(sync_to - c_sync_from).days} days")
 
-        entsoe = fetch_entsoe_country(entsoe_code, ts_start, ts_end)
+        c_ts_start = c_sync_from.tz_convert("Europe/Brussels") if c_sync_from.tzinfo else c_sync_from.tz_localize("UTC").tz_convert("Europe/Brussels")
+        c_ts_end   = sync_to.tz_convert("Europe/Brussels")
 
-        # Tạo hourly index UTC
+        entsoe = fetch_entsoe_country(entsoe_code, c_ts_start, c_ts_end)
+
         hourly_idx = pd.date_range(
-            start=sync_from, end=sync_to, freq="h", tz="UTC"
+            start=c_sync_from, end=sync_to, freq="h", tz="UTC"
         )
         df_c = pd.DataFrame({"Datetime": hourly_idx})
         df_c["Country"] = country_iso

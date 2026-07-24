@@ -19,7 +19,7 @@ import numpy as np
 import pandas as pd
 
 BASE_DIR    = os.path.dirname(os.path.abspath(__file__))
-MASTER_CSV  = os.path.join(BASE_DIR, "../../data/processed/master_dataset_hourly.csv")
+MASTER_CSV  = os.path.join(BASE_DIR, "web_master_dataset.csv")
 RECENT_CSV  = os.path.join(BASE_DIR, "recent_data.csv")
 OUTPUT_CSV  = os.path.join(BASE_DIR, "daily_features_data.csv")
 SCALER_JSON = os.path.join(BASE_DIR, "../ai_model/country_scalers.json")
