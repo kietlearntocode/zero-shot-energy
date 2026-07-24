@@ -1,13 +1,13 @@
-name: Daily Data Sync
+name: Monthly Model Retrain
 
 on:
   schedule:
-    # Chạy vào 00:00 UTC (khoảng 7h sáng giờ VN). Có thể điều chỉnh lại nếu cần.
-    - cron: '0 0 * * *'
+    # Chạy vào 02:00 UTC (khoảng 9h sáng giờ VN) vào ngày 1 hàng tháng
+    - cron: '0 2 1 * *'
   workflow_dispatch: # Cho phép bấm chạy bằng tay trên Github
 
 jobs:
-  sync-data:
+  retrain-model:
     runs-on: ubuntu-latest
 
     steps:
@@ -25,21 +25,15 @@ jobs:
         python -m pip install --upgrade pip
         pip install pandas numpy xgboost yfinance requests python-dotenv scikit-learn entsoe-py
 
-    - name: Run Daily Sync
-      env:
-        ENTSOE_API_KEY: ${{ secrets.ENTSOE_API_KEY }}
+    - name: Retrain Model (Monthly)
       run: |
-        python web_app/data_pipeline/sync_daily.py
-        
-    - name: Build Daily Features
-      run: |
-        python web_app/data_pipeline/build_daily_features.py
+        python web_app/ai_model/train_daily.py
 
     - name: Commit and Push Changes
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "41898282+github-actions[bot]@users.noreply.github.com"
-        git add web_app/data_pipeline/daily_features_data.csv web_app/data_pipeline/recent_data.csv
+        git add web_app/ai_model/daily_xgb.json web_app/ai_model/training_report.json
         # Bỏ qua lỗi nếu không có gì thay đổi
-        git commit -m "Automated daily data sync [skip ci]" || echo "No changes to commit"
+        git commit -m "Automated monthly model retrain [skip ci]" || echo "No changes to commit"
         git push
