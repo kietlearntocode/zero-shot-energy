@@ -21,8 +21,10 @@ BASE_DIR   = os.path.dirname(os.path.abspath(__file__))
 DATA_PATH  = os.path.join(BASE_DIR, "../data_pipeline/daily_features_data.csv")
 
 ENTSOE_CODES = {
-    "DE": "DE_LU", "DK": "DK_1", "ES": "ES",
-    "FR": "FR",    "IT": "IT_NORD", "PL": "PL",
+    "BE": "BE", "CZ": "CZ", "DE": "DE_LU", "DK": "DK_1",
+    "ES": "ES", "FI": "FI", "FR": "FR", "GB": "GB",
+    "HU": "HU", "IE": "IE", "IT": "IT_NORD", "NL": "NL",
+    "NO": "NO_1", "PL": "PL", "PT": "PT", "SE": "SE_3", "SK": "SK"
 }
 
 RENEWABLE_TYPES = [
